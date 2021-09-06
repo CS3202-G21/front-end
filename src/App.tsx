@@ -1,11 +1,9 @@
-import React from 'react';
+import React from "react";
+import { useStore } from "./hooks/useStore";
 
-function App() {
-  return (
-    <div>
-        hi
-    </div>
-  );
-}
+const App = () => {
+  const store = useStore();
+  return <div>{store.authStore.email}</div>;
+};
 
 export default App;
