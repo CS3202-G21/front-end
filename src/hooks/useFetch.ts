@@ -1,6 +1,6 @@
-import { fetch } from "./fetch";
+import { fetch } from "../fetch/fetch";
 import { useState } from "react";
-import { FetchOptions } from "./types";
+import { FetchOptions } from "../fetch/types";
 
 const cacheMap = new Map();
 

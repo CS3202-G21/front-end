@@ -1,8 +1,8 @@
 import { useState } from "react";
 import logger from "loglevel";
-import { fetch } from "./fetch";
+import { fetch } from "../fetch/fetch";
 import { FetchConfig, getConfigKey } from "./useFetch";
-import { getCacheVisitor } from "./resourceCache";
+import { getCacheVisitor } from "../fetch/resourceCache";
 
 type ResourceOptions<T> = {
   idle: boolean;

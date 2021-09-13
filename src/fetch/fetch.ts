@@ -3,14 +3,14 @@ import {
   addHookToRunBeforeFetch,
   addHookToRunOnError,
   doFetch,
-} from './api';
-import { withHttpErrors } from './middleware/withHttpErrors';
-import { withAxiosResponseData } from './middleware/withAxiosResponseData';
-import { withUrlQueryParams } from './middleware/withUrlQueryParams';
-import { withContentTypeJsonHeader } from './middleware/withContentTypeJsonHeader';
-import { withRateLimit } from './middleware/withRateLimit';
-import { FetchConfig } from './useFetch';
-import { withAxiosErrorMessage } from './middleware/withAxiosErrorMessage';
+} from "./api";
+import { withHttpErrors } from "./middleware/withHttpErrors";
+import { withAxiosResponseData } from "./middleware/withAxiosResponseData";
+import { withUrlQueryParams } from "./middleware/withUrlQueryParams";
+import { withContentTypeJsonHeader } from "./middleware/withContentTypeJsonHeader";
+import { withRateLimit } from "./middleware/withRateLimit";
+import { FetchConfig } from "../hooks/useFetch";
+import { withAxiosErrorMessage } from "./middleware/withAxiosErrorMessage";
 
 /**
  * Register middleware to run before the fetch call

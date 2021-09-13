@@ -1,4 +1,4 @@
-export { fetch } from './fetch';
-export * from './useFetch';
-export * from './useResource';
-export { FetchBoundary } from './FetchBoundary';
+export { fetch } from "./fetch";
+export * from "../hooks/useFetch";
+export * from "../hooks/useResource";
+export { FetchBoundary } from "./FetchBoundary";
