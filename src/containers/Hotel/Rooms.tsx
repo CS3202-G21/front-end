@@ -1,9 +1,10 @@
-import React from 'react'
+import * as React from 'react';
+import { observer } from 'mobx-react-lite';
 
-interface RoomsProps {
+interface RoomsProps {}
 
-}
+const Rooms: React.FC<RoomsProps> = () => {
+  return <div />;
+};
 
-export const Rooms: React.FC<RoomsProps> = ({}) => {
-        return ();
-}
+export default observer(Rooms);

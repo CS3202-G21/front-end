@@ -1,9 +1,7 @@
-import React from 'react'
+import React from 'react';
 
-interface RatingProps {
+interface RatingProps {}
 
-}
-
-export const Rating: React.FC<RatingProps> = ({}) => {
-        return ();
-}
+export const Rating: React.FC<RatingProps> = () => {
+  return <div></div>;
+};

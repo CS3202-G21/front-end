@@ -1,9 +1,7 @@
-import React from 'react'
+import React from 'react';
 
-interface ReservationsProps {
+interface ReservationsProps {}
 
-}
-
-export const Reservations: React.FC<ReservationsProps> = ({}) => {
-        return ();
-}
+export const Reservations: React.FC<ReservationsProps> = () => {
+  return <div></div>;
+};

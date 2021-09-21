@@ -6,7 +6,6 @@ export type ProtectedRouteProps = RouteProps;
 
 export default function PrivateRoute({ ...routeProps }) {
   const store = useStore();
-  console.log(store.commonStore.isAuthenticated, 'rout');
   if (store.commonStore.isAuthenticated) {
     return <Route {...routeProps} />;
   } else {

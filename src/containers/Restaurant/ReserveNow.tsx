@@ -1,9 +1,7 @@
-import React from 'react'
+import React from 'react';
 
-interface ReserveNowProps {
+interface ReserveNowProps {}
 
-}
-
-export const ReserveNow: React.FC<ReserveNowProps> = ({}) => {
-        return ();
-}
+export const ReserveNow: React.FC<ReserveNowProps> = () => {
+  return <div></div>;
+};

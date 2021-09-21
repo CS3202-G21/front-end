@@ -56,18 +56,12 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 export default function Header(props: any) {
   const theme = useTheme();
   const { open, setOpen } = props;
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const store = useStore();
   const history = useHistory();
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
   const signOutHandler = async () => {
     await store.authStore.logout();
     setIsAuthenticated(store.commonStore.isAuthenticated);
-    handleClose();
     history.push('/login');
   };
 
@@ -148,7 +142,7 @@ export default function Header(props: any) {
             </DrawerHeader>
             {menu_config.map((listItem) =>
               !listItem.sub ? (
-                <React.Fragment>
+                <React.Fragment key={listItem.name}>
                   <Divider sx={{ margin: '10px' }} />
                   <ListItem
                     button
@@ -160,7 +154,11 @@ export default function Header(props: any) {
                   </ListItem>
                 </React.Fragment>
               ) : (
-                <NestedList listItem={listItem} history={history} />
+                <NestedList
+                  key={listItem.name}
+                  listItem={listItem}
+                  history={history}
+                />
               )
             )}
           </Drawer>
@@ -175,7 +173,6 @@ export default function Header(props: any) {
 const NestedList = (props: any) => {
   const [listOpen, setListOpen] = React.useState(false);
   const { listItem, history } = props;
-  console.log(listItem);
   const handleClick = () => {
     setListOpen(!listOpen);
   };

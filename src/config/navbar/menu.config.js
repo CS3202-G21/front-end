@@ -11,6 +11,8 @@ export const menu_config = [
     sub: [
       { name: 'Food & Beverages', to: '/foods' },
       { name: 'Special offers', to: '/offers' },
+      { name: 'Reserve Table', to: '/reserve' },
+      { name: 'Reservations', to: '/reservations' },
     ],
   },
   {

@@ -201,6 +201,11 @@ export default function REGISTER_URL() {
             >
               Sign Up
             </Button>
+            {error && (
+              <Alert severity="error">
+                This is an error alert — check it out!
+              </Alert>
+            )}
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link href="/login" variant="body2">

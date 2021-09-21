@@ -1,4 +1,4 @@
-import { observable, action } from 'mobx';
+import { observable, action, makeAutoObservable } from 'mobx';
 import { RootStoreModel } from './RootStore';
 import { getOffers } from '../services/RoomServices';
 
@@ -8,11 +8,12 @@ export class OfferStore {
   @observable offers: any;
 
   constructor(rootStore: RootStoreModel) {
+    makeAutoObservable(this);
     this.rootStore = rootStore;
   }
 
-  @action getOffers() {
-    this.offers = getOffers();
-    console.log(this.offers);
+  @action async getOffers() {
+    this.offers = await getOffers();
+    return this.offers;
   }
 }

@@ -1,9 +1,7 @@
-import React from 'react'
+import React from 'react';
 
-interface BookNowProps {
+interface BookNowProps {}
 
-}
-
-export const BookNow: React.FC<BookNowProps> = ({}) => {
-        return ();
-}
+export const BookNow: React.FC<BookNowProps> = () => {
+  return <div></div>;
+};

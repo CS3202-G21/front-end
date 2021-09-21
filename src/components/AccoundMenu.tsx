@@ -20,6 +20,10 @@ export default function AccountMenu(props: any) {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const logOutHanlder = () => {
+    handleClose();
+    logOut();
+  };
   return (
     <React.Fragment>
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
@@ -73,7 +77,7 @@ export default function AccountMenu(props: any) {
           </ListItemIcon>
           Settings
         </MenuItem>
-        <MenuItem onClick={() => logOut()}>
+        <MenuItem onClick={logOutHanlder}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>

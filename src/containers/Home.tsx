@@ -1,9 +1,5 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
@@ -11,10 +7,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
-import Divider from '@mui/material/Divider';
-import { useStore } from '../hooks/useStore';
 
-const cards = [1, 2, 3, 4];
 const cover = {
   title: 'Cloud Hotel',
   description: '#1 Hotel Management System Software',
@@ -24,11 +17,6 @@ const cover = {
 };
 
 export default function Home() {
-  const store = useStore();
-  React.useEffect(() => {
-    const offers = store.roomStore.getOffers();
-    console.log(offers);
-  }, []);
   return (
     <React.Fragment>
       <Paper
@@ -141,83 +129,6 @@ export default function Home() {
             </Stack>
           </Container>
         </Box>
-
-        {/* Divider */}
-        <Container sx={{ py: 8 }} maxWidth="md">
-          <Divider variant="middle" />
-        </Container>
-
-        {/* Rooms */}
-        <Container sx={{ py: 8 }} maxWidth="lg">
-          <Grid container spacing={4}>
-            {cards.map((card) => (
-              <Grid item key={card} xs={12} sm={6} md={4} lg={3}>
-                <Card
-                  sx={{
-                    height: '100%',
-                    display: 'flex',
-                    flexDirection: 'column',
-                  }}
-                >
-                  <CardMedia
-                    component="img"
-                    sx={{
-                      // 16:9
-                      pt: '56.25%',
-                    }}
-                    image="https://source.unsplash.com/collection/3759609"
-                    alt="random"
-                  />
-                  <CardContent sx={{ flexGrow: 1 }}>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      Double Bedroom
-                    </Typography>
-                    <Typography>
-                      This is a Double Bedroom consist of two Master Beds
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Button size="small">View</Button>
-                    <Button size="small">Edit</Button>
-                  </CardActions>
-                </Card>
-              </Grid>
-            ))}
-            {cards.map((card) => (
-              <Grid item key={card} xs={12} sm={6} md={4} lg={3}>
-                <Card
-                  sx={{
-                    height: '100%',
-                    display: 'flex',
-                    flexDirection: 'column',
-                  }}
-                >
-                  <CardMedia
-                    component="img"
-                    sx={{
-                      // 16:9
-                      pt: '56.25%',
-                    }}
-                    image="https://source.unsplash.com/collection/9487467"
-                    alt="random"
-                  />
-                  <CardContent sx={{ flexGrow: 1 }}>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      Single Bedroom
-                    </Typography>
-                    <Typography>
-                      This is a Single Bedroom consist of a Master Bed
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Button size="small">View</Button>
-                    <Button size="small">Edit</Button>
-                  </CardActions>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-        </Container>
       </main>
     </React.Fragment>
   );
