@@ -1,4 +1,4 @@
-import { observable, action, reaction } from 'mobx';
+import { observable, action, makeAutoObservable } from 'mobx';
 import { RootStoreModel } from './RootStore';
 
 export type token = string | null | undefined;
@@ -15,13 +15,12 @@ export class CommonStore {
   @observable isLoadingTags = false;
 
   constructor(rootStore: RootStoreModel) {
-    console.log(this.token);
+    makeAutoObservable(this);
     this.rootStore = rootStore;
     if (this.token) {
       this.isAuthenticated = true;
     } else {
       this.isAuthenticated = false;
-      window.localStorage.removeItem('jwt');
     }
   }
 

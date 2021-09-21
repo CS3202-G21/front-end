@@ -2,6 +2,7 @@ import { AuthStore } from './AuthStore';
 import { CommonStore } from './CommonStore';
 import { UserStore } from './UserStore';
 import { OfferStore } from './OfferStore';
+import { useStore } from '../hooks/useStore';
 
 export type RootStoreModel = {
   authStore: AuthStore;

@@ -15,38 +15,37 @@ import { useStore } from '../hooks/useStore';
 import { useHistory } from 'react-router-dom';
 import { Alert } from '@mui/material';
 import { useState } from 'react';
+import { observer } from 'mobx-react-lite';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 
-function Copyright(props: any) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {'Copyright © '}
-      <Link color="inherit" href="/">
-        Cloud Hotel
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+const schema = yup.object().shape({
+  username: yup.string().required(),
+  password: yup.string().min(6).max(32).required(),
+});
 
-export default function Login() {
+const Login = () => {
   const store = useStore();
   const history = useHistory();
   const [error, setError] = useState();
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data: any = new FormData(event.currentTarget);
-    store.authStore.setUsername(data.get('username'));
-    store.authStore.setPassword(data.get('password'));
-    console.log(store.authStore.errors);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<any>({
+    resolver: yupResolver(schema),
+  });
+
+  const onSubmitHandler = async (data: any) => {
+    console.log(data);
+    store.authStore.setUsername(data.username);
+    store.authStore.setPassword(data.password);
     const response = await store.authStore.login();
     if (response === 'success') {
-      history.push('/home');
+      history.push('/');
+      reset();
     } else {
       setError(store.authStore.errors);
     }
@@ -66,7 +65,8 @@ export default function Login() {
         sm={4}
         md={7}
         sx={{
-          backgroundImage: 'url(https://source.unsplash.com/random)',
+          backgroundImage:
+            'url(https://source.unsplash.com/collection/4977823)',
           backgroundRepeat: 'no-repeat',
           backgroundColor: (t) =>
             t.palette.mode === 'light'
@@ -108,25 +108,31 @@ export default function Login() {
           <Box
             component="form"
             noValidate
-            onSubmit={handleSubmit}
+            onSubmit={handleSubmit(onSubmitHandler)}
             sx={{ mt: 1 }}
           >
             <TextField
+              {...register('username')}
               margin="normal"
               required
               fullWidth
               id="username"
               label="Username"
+              error={errors.username ? true : false}
+              helperText={errors.username?.message}
               name="username"
               autoComplete="username"
               autoFocus
             />
             <TextField
+              {...register('password')}
               margin="normal"
               required
               fullWidth
               name="password"
               label="Password"
+              error={errors.password ? true : false}
+              helperText={errors.password?.message}
               type="password"
               id="password"
               autoComplete="current-password"
@@ -136,6 +142,7 @@ export default function Login() {
               label="Remember me"
             />
             <Button
+              disabled={store.authStore.inProgress ? true : false}
               type="submit"
               fullWidth
               variant="contained"
@@ -160,10 +167,11 @@ export default function Login() {
                 </Link>
               </Grid>
             </Grid>
-            <Copyright sx={{ mt: 5 }} />
           </Box>
         </Box>
       </Grid>
     </Grid>
   );
-}
+};
+
+export default observer(Login);

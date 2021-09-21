@@ -15,37 +15,39 @@ import { useStore } from '../hooks/useStore';
 import { useHistory } from 'react-router-dom';
 import { Alert } from '@mui/material';
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 
-function Copyright(props: any) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {'Copyright © '}
-      <Link color="inherit" href="/">
-        Cloud Hotel
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+const schema = yup.object().shape({
+  username: yup.string().required(),
+  firstName: yup.string().required(),
+  lastName: yup.string().required(),
+  email: yup.string().email().required(),
+  password: yup.string().min(6).max(32).required(),
+});
 
-export default function Login() {
+export default function REGISTER_URL() {
   const store = useStore();
   const history = useHistory();
   const [error, setError] = useState();
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data: any = new FormData(event.currentTarget);
-    store.authStore.setUsername(data.get('username'));
-    store.authStore.setPassword(data.get('password'));
-    console.log(store.authStore.errors);
-    const response = await store.authStore.login();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<any>({
+    resolver: yupResolver(schema),
+  });
+  const onSubmitHandler = async (data: any) => {
+    store.authStore.setUsername(data.username);
+    store.authStore.setFName(data.firstName);
+    store.authStore.setLName(data.lastName);
+    store.authStore.setEmail(data.email);
+    store.authStore.setPassword(data.password);
+    const response = await store.authStore.register();
     if (response === 'success') {
+      reset();
       history.push('/home');
     } else {
       setError(store.authStore.errors);
@@ -66,7 +68,8 @@ export default function Login() {
         sm={4}
         md={7}
         sx={{
-          backgroundImage: 'url(https://source.unsplash.com/random)',
+          backgroundImage:
+            'url(https://source.unsplash.com/collection/4977823)',
           backgroundRepeat: 'no-repeat',
           backgroundColor: (t) =>
             t.palette.mode === 'light'
@@ -108,43 +111,67 @@ export default function Login() {
           <Box
             component="form"
             noValidate
-            onSubmit={handleSubmit}
+            onSubmit={handleSubmit(onSubmitHandler)}
             sx={{ mt: 3 }}
           >
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12}>
                 <TextField
-                  autoComplete="fname"
-                  name="firstName"
+                  {...register('username')}
+                  autoComplete="username"
+                  name="username"
                   required
                   fullWidth
-                  id="firstName"
-                  label="First Name"
+                  id="username"
+                  label="Username"
+                  error={errors.username ? true : false}
+                  helperText={errors.username?.message}
                   autoFocus
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
+                  {...register('firstName')}
+                  autoComplete="firstName"
+                  name="firstName"
+                  required
+                  fullWidth
+                  id="firstName"
+                  label="First Name"
+                  error={errors.firstName ? true : false}
+                  helperText={errors.firstName?.message}
+                  autoFocus
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  {...register('lastName')}
                   required
                   fullWidth
                   id="lastName"
                   label="Last Name"
                   name="lastName"
-                  autoComplete="lname"
+                  autoComplete="lastName"
+                  error={errors.lastName ? true : false}
+                  helperText={errors.lastName?.message}
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  {...register('email')}
                   required
                   fullWidth
                   id="email"
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                  error={errors.email ? true : false}
+                  helperText={errors.email?.message}
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  {...register('password')}
                   required
                   fullWidth
                   name="password"
@@ -152,6 +179,8 @@ export default function Login() {
                   type="password"
                   id="password"
                   autoComplete="new-password"
+                  error={errors.password ? true : false}
+                  helperText={errors.password?.message}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -168,6 +197,7 @@ export default function Login() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              disabled={store.authStore.inProgress ? true : false}
             >
               Sign Up
             </Button>

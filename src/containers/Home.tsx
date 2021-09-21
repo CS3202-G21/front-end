@@ -7,54 +7,22 @@ import CardMedia from '@mui/material/CardMedia';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
-import { UserStore } from '../stores/UserStore';
+import Divider from '@mui/material/Divider';
 import { useStore } from '../hooks/useStore';
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        CLoud
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+const cards = [1, 2, 3, 4];
 const cover = {
   title: 'Cloud Hotel',
   description: '#1 Hotel Management System Software',
-  image: 'https://source.unsplash.com/random',
+  image: 'https://source.unsplash.com/collection/4977823',
   imageText: 'main image description',
   linkText: 'Continue reading…',
 };
-interface HeaderProps {
-  sections: ReadonlyArray<{
-    title: string;
-    url: string;
-  }>;
-  title: string;
-}
-const sections = [
-  { title: 'Technology', url: '#' },
-  { title: 'Design', url: '#' },
-  { title: 'Culture', url: '#' },
-  { title: 'Business', url: '#' },
-  { title: 'Politics', url: '#' },
-  { title: 'Opinion', url: '#' },
-  { title: 'Science', url: '#' },
-  { title: 'Health', url: '#' },
-  { title: 'Style', url: '#' },
-  { title: 'Travel', url: '#' },
-];
+
 export default function Home() {
   const store = useStore();
   React.useEffect(() => {
@@ -63,28 +31,6 @@ export default function Home() {
   }, []);
   return (
     <React.Fragment>
-      <Toolbar
-        component="nav"
-        variant="dense"
-        sx={{
-          justifyContent: 'space-between',
-          overflowX: 'auto',
-          marginTop: '100px',
-        }}
-      >
-        {sections.map((section) => (
-          <Link
-            color="inherit"
-            noWrap
-            key={section.title}
-            variant="body2"
-            href={section.url}
-            sx={{ p: 1, flexShrink: 0 }}
-          >
-            {section.title}
-          </Link>
-        ))}
-      </Toolbar>
       <Paper
         sx={{
           position: 'relative',
@@ -143,6 +89,7 @@ export default function Home() {
           </Grid>
         </Grid>
       </Paper>
+
       <main>
         {/* Hero unit */}
         <Box
@@ -154,13 +101,22 @@ export default function Home() {
         >
           <Container maxWidth="sm">
             <Typography
-              component="h1"
+              component="h2"
               variant="h2"
               align="center"
               color="text.primary"
               gutterBottom
             >
-              What we provide as Cloud Hotel
+              What we provide as
+            </Typography>
+            <Typography
+              component="h1"
+              variant="h1"
+              align="center"
+              color="primary"
+              gutterBottom
+            >
+              Cloud Hotel
             </Typography>
             <Typography
               variant="h5"
@@ -168,9 +124,11 @@ export default function Home() {
               color="text.secondary"
               paragraph
             >
-              Something short and leading about the collection below—its
-              contents, the creator, etc. Make it short and sweet, but not too
-              short so folks don&apos;t simply skip over it entirely.
+              Cloud Hotel offers ultimate comfort and luxury. This 4-storied
+              hotel is a beautiful combination of traditional grandeur and
+              modern facilities. The 255 exclusive guest rooms are furnished
+              with a range of modern amenities such as television and internet
+              access
             </Typography>
             <Stack
               sx={{ pt: 4 }}
@@ -183,11 +141,17 @@ export default function Home() {
             </Stack>
           </Container>
         </Box>
+
+        {/* Divider */}
         <Container sx={{ py: 8 }} maxWidth="md">
-          {/* End hero unit */}
+          <Divider variant="middle" />
+        </Container>
+
+        {/* Rooms */}
+        <Container sx={{ py: 8 }} maxWidth="lg">
           <Grid container spacing={4}>
             {cards.map((card) => (
-              <Grid item key={card} xs={12} sm={6} md={4}>
+              <Grid item key={card} xs={12} sm={6} md={4} lg={3}>
                 <Card
                   sx={{
                     height: '100%',
@@ -201,16 +165,48 @@ export default function Home() {
                       // 16:9
                       pt: '56.25%',
                     }}
-                    image="https://source.unsplash.com/random"
+                    image="https://source.unsplash.com/collection/3759609"
                     alt="random"
                   />
                   <CardContent sx={{ flexGrow: 1 }}>
                     <Typography gutterBottom variant="h5" component="h2">
-                      Heading
+                      Double Bedroom
                     </Typography>
                     <Typography>
-                      This is a media card. You can use this section to describe
-                      the content.
+                      This is a Double Bedroom consist of two Master Beds
+                    </Typography>
+                  </CardContent>
+                  <CardActions>
+                    <Button size="small">View</Button>
+                    <Button size="small">Edit</Button>
+                  </CardActions>
+                </Card>
+              </Grid>
+            ))}
+            {cards.map((card) => (
+              <Grid item key={card} xs={12} sm={6} md={4} lg={3}>
+                <Card
+                  sx={{
+                    height: '100%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                  }}
+                >
+                  <CardMedia
+                    component="img"
+                    sx={{
+                      // 16:9
+                      pt: '56.25%',
+                    }}
+                    image="https://source.unsplash.com/collection/9487467"
+                    alt="random"
+                  />
+                  <CardContent sx={{ flexGrow: 1 }}>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      Single Bedroom
+                    </Typography>
+                    <Typography>
+                      This is a Single Bedroom consist of a Master Bed
                     </Typography>
                   </CardContent>
                   <CardActions>
@@ -223,22 +219,6 @@ export default function Home() {
           </Grid>
         </Container>
       </main>
-      {/* Footer */}
-      <Box sx={{ bgcolor: 'background.paper', p: 6 }} component="footer">
-        <Typography variant="h6" align="center" gutterBottom>
-          Cloud Hotel
-        </Typography>
-        <Typography
-          variant="subtitle1"
-          align="center"
-          color="text.secondary"
-          component="p"
-        >
-          Restaurant Management System
-        </Typography>
-        <Copyright />
-      </Box>
-      {/* End footer */}
     </React.Fragment>
   );
 }

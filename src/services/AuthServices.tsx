@@ -1,19 +1,32 @@
-import { fetch } from "../fetch";
+import { fetch } from '../fetch';
 
-export const LOGIN_URL = "http://localhost:8000/api/auth/customer/login";
-export const REGISTER_URL = "http://localhost:8000/api/rooms";
+export const LOGIN_URL = 'http://localhost:8000/api/auth/customer/login';
+export const REGISTER_URL = 'http://localhost:8000/api/auth/customer/register';
 
 export const login = async (username: string, password: string) => {
   return await fetch({
-    method: "post",
+    method: 'post',
     url: LOGIN_URL,
     body: { username: username, password: password },
   });
 };
 
-export const register = async (email: string, password: string) => {
+export const register = async (
+  username: string,
+  fName: string,
+  lName: string,
+  email: string,
+  password: string
+) => {
   return await fetch({
+    method: 'post',
     url: REGISTER_URL,
-    body: { email: email, password: password },
+    body: {
+      username: username,
+      first_name: fName,
+      last_name: lName,
+      email: email,
+      password: password,
+    },
   });
 };
