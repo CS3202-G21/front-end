@@ -18,6 +18,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { observer } from 'mobx-react-lite';
 
 const schema = yup.object().shape({
   username: yup.string().required(),
@@ -25,12 +26,16 @@ const schema = yup.object().shape({
   lastName: yup.string().required(),
   email: yup.string().email().required(),
   password: yup.string().min(6).max(32).required(),
+  confirmPassword: yup
+    .string()
+    .oneOf([yup.ref('password'), null], 'Passwords must match'),
 });
 
-export default function REGISTER_URL() {
+const Register = () => {
   const store = useStore();
   const history = useHistory();
-  const [error, setError] = useState();
+  const [error, setError] = useState<any>();
+  const [checkBox, setCheckBox] = useState(false);
   const {
     register,
     handleSubmit,
@@ -40,17 +45,23 @@ export default function REGISTER_URL() {
     resolver: yupResolver(schema),
   });
   const onSubmitHandler = async (data: any) => {
-    store.authStore.setUsername(data.username);
-    store.authStore.setFName(data.firstName);
-    store.authStore.setLName(data.lastName);
-    store.authStore.setEmail(data.email);
-    store.authStore.setPassword(data.password);
-    const response = await store.authStore.register();
-    if (response === 'success') {
-      reset();
-      history.push('/home');
+    console.log(checkBox);
+    if (checkBox === false) {
+      setError('You must accept the terms & conditions');
     } else {
-      setError(store.authStore.errors);
+      setError(undefined);
+      store.authStore.setUsername(data.username);
+      store.authStore.setFName(data.firstName);
+      store.authStore.setLName(data.lastName);
+      store.authStore.setEmail(data.email);
+      store.authStore.setPassword(data.password);
+      const response = await store.authStore.register();
+      if (response === 'success') {
+        reset();
+        history.push('/home');
+      } else {
+        setError(store.authStore.errors);
+      }
     }
   };
   return (
@@ -184,9 +195,28 @@ export default function REGISTER_URL() {
                 />
               </Grid>
               <Grid item xs={12}>
+                <TextField
+                  {...register('confirmPassword')}
+                  required
+                  fullWidth
+                  name="confirmPassword"
+                  label="Confirm Password"
+                  type="password"
+                  id="confirmPassword"
+                  autoComplete="new-password"
+                  error={errors.confirmPassword ? true : false}
+                  helperText={errors.confirmPassword?.message}
+                />
+              </Grid>
+              <Grid item xs={12}>
                 <FormControlLabel
+                  {...register('check')}
                   control={
-                    <Checkbox value="allowExtraEmails" color="primary" />
+                    <Checkbox
+                      value="allowExtraEmails"
+                      color="primary"
+                      onClick={() => setCheckBox(!checkBox)}
+                    />
                   }
                   label="I agree to all the terms and conditions"
                 />
@@ -201,11 +231,7 @@ export default function REGISTER_URL() {
             >
               Sign Up
             </Button>
-            {error && (
-              <Alert severity="error">
-                This is an error alert — check it out!
-              </Alert>
-            )}
+            {error && <Alert severity="error">{error}</Alert>}
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link href="/login" variant="body2">
@@ -218,4 +244,6 @@ export default function REGISTER_URL() {
       </Grid>
     </Grid>
   );
-}
+};
+
+export default observer(Register);

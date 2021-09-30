@@ -7,12 +7,13 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
+import { observer } from 'mobx-react-lite';
+import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 
-export default function AccountMenu(props: any) {
+const AccountMenu = (props: any) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const { logOut } = props;
+  const { logOut, history, store } = props;
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -20,7 +21,7 @@ export default function AccountMenu(props: any) {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const logOutHanlder = () => {
+  const logOutHandler = () => {
     handleClose();
     logOut();
   };
@@ -29,7 +30,11 @@ export default function AccountMenu(props: any) {
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
         <Tooltip title="Account settings">
           <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }}>
-            <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+            <Avatar sx={{ width: 32, height: 32 }}>
+              {(store.userStore.currentUser?.username &&
+                store.userStore.currentUser?.username.charAt(0)) ||
+                'U'}
+            </Avatar>
           </IconButton>
         </Tooltip>
       </Box>
@@ -67,17 +72,16 @@ export default function AccountMenu(props: any) {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem>
-          <Avatar /> Profile
+        <MenuItem>{`Hey, ${store.userStore.currentUser?.username}`}</MenuItem>
+        <Divider light />
+        <MenuItem onClick={() => history.push('/profile')}>
+          <ListItemIcon>
+            <PersonOutlineIcon fontSize="small" />
+          </ListItemIcon>
+          Profile
         </MenuItem>
         <Divider />
-        <MenuItem>
-          <ListItemIcon>
-            <Settings fontSize="small" />
-          </ListItemIcon>
-          Settings
-        </MenuItem>
-        <MenuItem onClick={logOutHanlder}>
+        <MenuItem onClick={logOutHandler}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>
@@ -86,4 +90,6 @@ export default function AccountMenu(props: any) {
       </Menu>
     </React.Fragment>
   );
-}
+};
+
+export default observer(AccountMenu);

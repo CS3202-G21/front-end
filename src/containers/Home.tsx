@@ -10,8 +10,8 @@ import Paper from '@mui/material/Paper';
 
 const cover = {
   title: 'Cloud Hotel',
-  description: '#1 Hotel Management System Software',
-  image: 'https://source.unsplash.com/collection/4977823',
+  description: '#1 Hotel & Restaurant Management Application',
+  image: 'https://source.unsplash.com/MXbM1NrRqtI/1600x900',
   imageText: 'main image description',
   linkText: 'Continue reading…',
 };

@@ -1,7 +1,14 @@
-import { fetch } from "../fetch";
+import { fetch } from '../fetch';
+import { useStore } from '../hooks/useStore';
 
-export const UPDATE_USER_URL = "http://localhost:8000/api/rooms";
+export const GET_USER_URL =
+  'http://178.128.121.215:8000/api/auth/customer/user';
 
-export const updateUser = async (user: any) =>  {
-    return await fetch({url: UPDATE_USER_URL, body: user});
-}
+export const getUser = async () => {
+  const token = window.localStorage.getItem('jwt');
+  return await fetch({
+    headers: { Authorization: token ? `Token ${token}` : '' },
+    method: 'get',
+    url: GET_USER_URL,
+  });
+};

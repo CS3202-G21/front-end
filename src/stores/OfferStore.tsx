@@ -1,15 +1,15 @@
 import { observable, action, makeAutoObservable } from 'mobx';
-import { RootStoreModel } from './RootStore';
-import { getOffers } from '../services/RoomServices';
+import { RestaurantStoreModel } from './RestaurantStore';
+import { getOffers } from '../services/RestaurantServices';
 
 export class OfferStore {
-  private rootStore: RootStoreModel;
+  private restaurantStore: RestaurantStoreModel;
 
   @observable offers: any;
 
-  constructor(rootStore: RootStoreModel) {
+  constructor(restaurantStore: RestaurantStoreModel) {
     makeAutoObservable(this);
-    this.rootStore = rootStore;
+    this.restaurantStore = restaurantStore;
   }
 
   @action async getOffers() {

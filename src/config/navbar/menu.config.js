@@ -24,7 +24,8 @@ export const menu_config = [
       { name: 'Bookings', to: '/bookings' },
     ],
   },
-  { name: 'Ratings & Reviews', to: 'reviews', icon: <StarIcon /> },
+  { name: 'Ratings & Reviews', to: '/rating', icon: <StarIcon /> },
+  { name: 'Checkout', to: '/checkout', icon: <StarIcon /> },
 ];
 
 export default menu_config;

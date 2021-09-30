@@ -11,13 +11,14 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { styled } from '@mui/material/styles';
 import { Footer } from './components/Footer';
 import Offers from './containers/Restaurant/Offers';
-import { Booking } from './containers/Hotel/Booking';
+import Booking from './containers/Hotel/Booking';
 import { BookNow } from './containers/Hotel/BookNow';
 import Rooms from './containers/Hotel/Rooms';
-import { Foods } from './containers/Restaurant/Foods';
+import Foods from './containers/Restaurant/Foods';
 import { Reservations } from './containers/Restaurant/Reservations';
 import { ReserveNow } from './containers/Restaurant/ReserveNow';
 import Checkout from './components/Checkout/Checkout';
+import Profile from './containers/Profile';
 
 const drawerWidth = 300;
 
@@ -75,6 +76,8 @@ const App = () => {
               <PrivateRoute exact path="/foods" component={Foods} />
               <PrivateRoute exact path="/checkout" component={Checkout} />
               <PrivateRoute exact path="/rating" component={Rating} />
+              <PrivateRoute exact path="/checkout" component={Rating} />
+              <PrivateRoute exact path="/profile" component={Profile} />
               <Footer />
             </React.Fragment>
           </Switch>

@@ -1,4 +1,5 @@
 import { observable, action, makeAutoObservable } from 'mobx';
+import { userInfo } from 'os';
 import { login } from '../services/AuthServices';
 import { register } from '../services/AuthServices';
 import { RootStoreModel } from './RootStore';
@@ -17,6 +18,8 @@ export type user = {
   id: number;
   username: string;
   email: string;
+  first_name?: string;
+  last_name?: string;
 };
 
 export class AuthStore implements IAuthStore {
@@ -27,7 +30,7 @@ export class AuthStore implements IAuthStore {
     this.rootStore = rootStore;
   }
   @observable inProgress: boolean | undefined = false;
-  @observable errors = undefined;
+  @observable errors: any = undefined;
 
   @observable values = {
     username: '',
@@ -66,8 +69,6 @@ export class AuthStore implements IAuthStore {
   }
 
   @action login() {
-    console.log(this.inProgress);
-    console.log('login');
     this.inProgress = true;
     this.errors = undefined;
     return login(this.values.username, this.values.password)
@@ -79,7 +80,7 @@ export class AuthStore implements IAuthStore {
       })
       .catch(
         action((err: any) => {
-          this.errors = err.response;
+          this.errors = Object.values(err.response.data)[0];
           return 'error';
         })
       )
@@ -108,7 +109,7 @@ export class AuthStore implements IAuthStore {
       })
       .catch(
         action((err: any) => {
-          this.errors = err.response;
+          this.errors = Object.values(err.response.data)[0];
           return 'error';
         })
       )

@@ -20,7 +20,7 @@ import Divider from '@mui/material/Divider';
 import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-import AccountMenu from './AccoundMenu';
+import AccountMenu from './AccountMenu';
 
 const drawerWidth = 300;
 
@@ -114,7 +114,11 @@ export default function Header(props: any) {
                   }}
                 />
               </div>
-              <AccountMenu logOut={signOutHandler} />
+              <AccountMenu
+                logOut={signOutHandler}
+                history={history}
+                store={store}
+              />
             </Toolbar>
           </AppBar>
 

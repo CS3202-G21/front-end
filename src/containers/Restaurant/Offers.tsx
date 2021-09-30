@@ -1,7 +1,5 @@
 import * as React from 'react';
-import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Grid from '@mui/material/Grid';
@@ -11,16 +9,22 @@ import { useStore } from '../../hooks/useStore';
 import { observer } from 'mobx-react-lite';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
+import Divider from '@mui/material/Divider';
+import Chip from '@mui/material/Chip';
+import ProductionQuantityLimitsIcon from '@mui/icons-material/ProductionQuantityLimits';
+import ControlPointIcon from '@mui/icons-material/ControlPoint';
+import CheckIcon from '@mui/icons-material/Check';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 
 const Offers = () => {
   const store = useStore();
   React.useEffect(() => {
     async function getOffers() {
-      const offers = await store.offerStore.getOffers();
+      const offers = await store.restaurantStore.offerStore.getOffers();
       console.log(offers);
     }
     getOffers();
-  });
+  }, []);
 
   return (
     <Box
@@ -31,72 +35,82 @@ const Offers = () => {
       }}
     >
       <Container maxWidth="lg">
-        <Typography
-          component="h2"
-          variant="h2"
-          align="center"
-          color="text.primary"
-          gutterBottom
-        >
-          Special
-        </Typography>
-        <Typography
-          component="h1"
-          variant="h1"
-          align="center"
-          color="primary"
-          gutterBottom
-        >
-          Offers
-        </Typography>
-        <Typography
-          variant="h5"
-          align="center"
-          color="text.secondary"
-          paragraph
-        >
-          Cloud Hotel offers ultimate comfort and luxury. This 4-storied hotel
-          is a beautiful combination of traditional grandeur and modern
-          facilities. The 255 exclusive guest rooms are furnished with a range
-          of modern amenities such as television and internet access
-        </Typography>
         <Stack
-          sx={{ pt: 4 }}
+          sx={{ alignItems: 'flex-end' }}
           direction="row"
           spacing={2}
           justifyContent="center"
         >
-          <Button variant="contained">Visit Hotel</Button>
-          <Button variant="outlined">Visit Restaurant</Button>
+          <Typography
+            component="h2"
+            variant="h2"
+            align="center"
+            color="text.primary"
+            gutterBottom
+          >
+            Special
+          </Typography>
+          <Typography
+            component="h1"
+            variant="h1"
+            align="center"
+            color="primary"
+            gutterBottom
+          >
+            Offers
+          </Typography>
         </Stack>
-        {store.offerStore.offers &&
-          store.offerStore.offers.map((offer: any) => (
+
+        {store.restaurantStore.offerStore.offers &&
+          store.restaurantStore.offerStore.offers.map((offer: any) => (
             <Grid item key={offer.id} xs={12} sm={6} md={4}>
               <Card
+                elevation={5}
                 sx={{
                   height: '100%',
                   display: 'flex',
                   flexDirection: 'column',
+                  marginTop: '50px',
                 }}
               >
                 <CardMedia
                   component="img"
-                  sx={{
-                    // 16:9
-                    pt: '56.25%',
-                  }}
-                  image="https://source.unsplash.com/collection/3759609"
+                  image={offer.photo_main}
+                  height="200px"
                   alt="random"
                 />
-                <CardContent sx={{ flexGrow: 1 }}>
+                <CardContent sx={{ flexGrow: 1, textAlign: 'center' }}>
                   <Typography gutterBottom variant="h5" component="h2">
                     {offer.title}
                   </Typography>
-                  <Typography>{offer.description}</Typography>
+                  <Divider sx={{ margin: '20px' }} />
+                  <Typography sx={{ textAlign: 'justify' }}>
+                    {offer.description}
+                  </Typography>
+                  <Chip
+                    icon={<ProductionQuantityLimitsIcon />}
+                    label={`No. of items: ${offer.number_of_items}`}
+                    variant="outlined"
+                    color="secondary"
+                    sx={{ margin: '20px 10px' }}
+                  />
+                  <Chip
+                    icon={<ControlPointIcon />}
+                    label={`Discount: ${offer.discount} %`}
+                    variant="outlined"
+                    color="secondary"
+                    sx={{ margin: '20px 10px' }}
+                  />
+                  <Chip
+                    icon={
+                      offer.availability ? <CheckIcon /> : <ErrorOutlineIcon />
+                    }
+                    label={
+                      offer.availability ? 'Available Now' : 'Not Available'
+                    }
+                    color={offer.availability ? 'primary' : 'error'}
+                  />
                 </CardContent>
-                <CardActions>
-                  <Button size="small">Use Now</Button>
-                </CardActions>
               </Card>
             </Grid>
           ))}

@@ -46,7 +46,7 @@ const Login = () => {
     if (response === 'success') {
       history.push('/');
       reset();
-    } else {
+    } else if (response === 'error') {
       setError(store.authStore.errors);
     }
   };
@@ -150,11 +150,7 @@ const Login = () => {
             >
               Sign In
             </Button>
-            {error && (
-              <Alert severity="error">
-                This is an error alert — check it out!
-              </Alert>
-            )}
+            {error && <Alert severity="error">{error}</Alert>}
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
