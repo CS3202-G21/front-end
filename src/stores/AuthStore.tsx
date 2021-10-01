@@ -1,5 +1,4 @@
 import { observable, action, makeAutoObservable } from 'mobx';
-import { userInfo } from 'os';
 import { login } from '../services/AuthServices';
 import { register } from '../services/AuthServices';
 import { RootStoreModel } from './RootStore';
@@ -69,6 +68,28 @@ export class AuthStore implements IAuthStore {
   }
 
   @action login() {
+    this.inProgress = true;
+    this.errors = undefined;
+    return login(this.values.username, this.values.password)
+      .then((response) => {
+        console.log(response);
+        this.rootStore.commonStore.setToken(response.token);
+        this.rootStore.userStore.setUser(response.user);
+        return 'success';
+      })
+      .catch(
+        action((err: any) => {
+          this.errors = Object.values(err.response.data)[0];
+          return 'error';
+        })
+      )
+      .finally(
+        action(() => {
+          this.inProgress = false;
+        })
+      );
+  }
+  @action staffLogin() {
     this.inProgress = true;
     this.errors = undefined;
     return login(this.values.username, this.values.password)

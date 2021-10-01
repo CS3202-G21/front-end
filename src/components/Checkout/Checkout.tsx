@@ -1,34 +1,67 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import BasicForm from './BasicForm';
 import PaymentForm from './PaymentForm';
 import Review from './Review';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+import { useStore } from '../../hooks/useStore';
+import { Button } from '@mui/material';
+import { useHistory } from 'react-router';
+import { useParams } from 'react-router';
 
-const steps = ['Shipping address', 'Payment details', 'Review your order'];
+const stripePromise = loadStripe(
+  'pk_test_51HGUvrDOqWcprKpuPB7mjHMXK9ecsAjBIIXmRzZG6fVsT2OmRbGNAOkMRTjCSGv3xzruZHrNukXsi1Ie5e8FS7HU00PYo5KVVr'
+);
 
-function getStepContent(step: number) {
-  switch (step) {
-    case 0:
-      return <BasicForm />;
-    case 1:
-      return <PaymentForm />;
-    case 2:
-      return <Review />;
-    default:
-      throw new Error('Unknown step');
-  }
-}
+const steps = ['Basic Information', 'Review your order', 'Payment details'];
 
 export default function Checkout() {
   const [activeStep, setActiveStep] = React.useState(0);
 
+  let { type } = useParams<any>();
+
+  function getStepContent(step: number, handleBack: any, handleNext: any) {
+    switch (step) {
+      case 0:
+        return (
+          <BasicForm
+            activeStep={step}
+            handleBack={handleBack}
+            handleNext={handleNext}
+            steps={steps}
+          />
+        );
+      case 1:
+        return (
+          <Review
+            type={type}
+            activeStep={step}
+            handleBack={handleBack}
+            handleNext={handleNext}
+            steps={steps}
+          />
+        );
+      case 2:
+        return (
+          <Elements stripe={stripePromise}>
+            <PaymentForm
+              activeStep={step}
+              handleBack={handleBack}
+              handleNext={handleNext}
+              steps={steps}
+            />
+          </Elements>
+        );
+      default:
+        throw new Error('Unknown step');
+    }
+  }
   const handleNext = () => {
     setActiveStep(activeStep + 1);
   };
@@ -36,6 +69,8 @@ export default function Checkout() {
   const handleBack = () => {
     setActiveStep(activeStep - 1);
   };
+  const store = useStore();
+  const history = useHistory();
 
   return (
     <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
@@ -57,31 +92,39 @@ export default function Checkout() {
           {activeStep === steps.length ? (
             <React.Fragment>
               <Typography variant="h5" gutterBottom>
-                Thank you for your order.
+                Thank you for your{' '}
+                {type === 'booking' ? 'booking' : 'reservation'}.
               </Typography>
               <Typography variant="subtitle1">
-                Your order number is #2001539. We have emailed your order
-                confirmation, and will send you an update when your order has
-                shipped.
+                Your {type === 'booking' ? 'booking' : 'reservation'}. number is
+                #
+                {type === 'booking'
+                  ? store.hotelStore.bookStore.bookingData.id
+                  : store.restaurantStore.reserveStore.reserveData.id}
+                .
               </Typography>
+              <Button
+                variant="outlined"
+                onClick={() => history.push('/')}
+                sx={{ m: 3 }}
+              >
+                Go Back Home
+              </Button>
+              <Button
+                variant="contained"
+                onClick={() =>
+                  history.push(
+                    type === 'booking' ? '/bookings' : '/reservations'
+                  )
+                }
+                sx={{ m: 3, marginLeft: 'auto' }}
+              >
+                Go to {type === 'booking' ? 'Bookings' : 'Reservations'}
+              </Button>
             </React.Fragment>
           ) : (
             <React.Fragment>
-              {getStepContent(activeStep)}
-              <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                {activeStep !== 0 && (
-                  <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
-                    Back
-                  </Button>
-                )}
-                <Button
-                  variant="contained"
-                  onClick={handleNext}
-                  sx={{ mt: 3, ml: 1 }}
-                >
-                  {activeStep === steps.length - 1 ? 'Place order' : 'Next'}
-                </Button>
-              </Box>
+              {getStepContent(activeStep, handleBack, handleNext)}
             </React.Fragment>
           )}
         </React.Fragment>

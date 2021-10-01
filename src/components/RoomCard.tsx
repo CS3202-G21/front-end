@@ -14,9 +14,24 @@ import ApartmentIcon from '@mui/icons-material/Apartment';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import PersonIcon from '@mui/icons-material/Person';
 import KingBedIcon from '@mui/icons-material/KingBed';
+import { useHistory } from 'react-router';
+import { useStore } from '../hooks/useStore';
+import { observer } from 'mobx-react-lite';
 
-export default function RoomCard(props: any) {
+const RoomCard = (props: any) => {
   const { id, roomInfo, room_number, status, floor } = props;
+  const store = useStore();
+  const history = useHistory();
+
+  const bookNowHandler = () => {
+    store.hotelStore.bookStore.setRoomDetails({
+      ...roomInfo,
+      roomId: id,
+      roomNumber: room_number,
+    });
+    history.push('/book-now');
+  };
+
   return (
     <Grid item key={id} xs={12} sm={6} md={4}>
       <Card
@@ -97,11 +112,17 @@ export default function RoomCard(props: any) {
             color={status ? 'primary' : 'error'}
             sx={{ margin: '10px' }}
           />
-          <Button variant="contained" color="secondary" sx={{ ml: 'auto' }}>
+          <Button
+            variant="contained"
+            color="secondary"
+            sx={{ ml: 'auto' }}
+            onClick={bookNowHandler}
+          >
             Book Now
           </Button>
         </CardActions>
       </Card>
     </Grid>
   );
-}
+};
+export default observer(RoomCard);

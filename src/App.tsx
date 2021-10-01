@@ -12,13 +12,14 @@ import { styled } from '@mui/material/styles';
 import { Footer } from './components/Footer';
 import Offers from './containers/Restaurant/Offers';
 import Booking from './containers/Hotel/Booking';
-import { BookNow } from './containers/Hotel/BookNow';
+import BookNow from './containers/Hotel/BookNow';
 import Rooms from './containers/Hotel/Rooms';
 import Foods from './containers/Restaurant/Foods';
-import { Reservations } from './containers/Restaurant/Reservations';
-import { ReserveNow } from './containers/Restaurant/ReserveNow';
+import Reservations from './containers/Restaurant/Reservations';
+import ReserveNow from './containers/Restaurant/ReserveNow';
 import Checkout from './components/Checkout/Checkout';
 import Profile from './containers/Profile';
+import StaffLogin from './containers/Staff/StaffLogin';
 
 const drawerWidth = 300;
 
@@ -60,6 +61,7 @@ const App = () => {
           <DrawerHeader />
           <Switch>
             <Route path="/login" component={Login} />
+            <Route path="/staff" component={StaffLogin} />
             <Route path="/register" component={Register} />
             <React.Fragment>
               <PrivateRoute exact path="/" component={Home} />
@@ -71,12 +73,11 @@ const App = () => {
                 path="/reservations"
                 component={Reservations}
               />
-              <PrivateRoute exact path="/book" component={BookNow} />
+              <PrivateRoute exact path="/book-now" component={BookNow} />
               <PrivateRoute exact path="/rooms" component={Rooms} />
               <PrivateRoute exact path="/foods" component={Foods} />
-              <PrivateRoute exact path="/checkout" component={Checkout} />
+              <PrivateRoute path="/checkout/:type" component={Checkout} />
               <PrivateRoute exact path="/rating" component={Rating} />
-              <PrivateRoute exact path="/checkout" component={Rating} />
               <PrivateRoute exact path="/profile" component={Profile} />
               <Footer />
             </React.Fragment>

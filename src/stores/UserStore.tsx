@@ -17,6 +17,7 @@ export class UserStore implements IUserStore {
   @observable loadingUser: boolean;
   @observable updatingUser: boolean;
   @observable updatingUserErrors: any;
+  @observable userClass: any;
 
   constructor(rootStore: RootStoreModel) {
     makeAutoObservable(this);
@@ -29,6 +30,10 @@ export class UserStore implements IUserStore {
   @action setUser(user: user) {
     localStorage.setItem('currentUser', JSON.stringify(user));
     this.currentUser = user;
+  }
+  @action setUserClass(userClass: user) {
+    localStorage.setItem('userClass', JSON.stringify(userClass));
+    this.userClass = userClass;
   }
 
   @action async getUser() {
