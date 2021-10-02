@@ -17,30 +17,46 @@ const BookNow: React.FC<BookNowProps> = () => {
   const [startingDate, setStartingDate] = React.useState<any>(new Date());
   const [endingDate, setEndingDate] = React.useState<any>(new Date());
   const [error, setError] = React.useState(false);
+  const [dateError, setDateError] = React.useState(false);
+  const [dateErrorMsg, setDateErrorMsg] = React.useState('');
   const [username, setUsername] = React.useState('');
   const store = useStore();
   const history = useHistory();
 
   const bookNowHandler = async () => {
-    await store.hotelStore.bookStore
-      .bookNow(
-        store.hotelStore.bookStore.roomDetails.roomId,
-        store.userStore.userClass === 2
-          ? username
-          : store.userStore.currentUser?.id,
-        startingDate.toISOString().split('T')[0],
-        endingDate.toISOString().split('T')[0],
-        store.userStore.userClass === 2 ? false : true
-      )
-      .then((res) => {
-        if (res === 'success') {
-          store.userStore.userClass === 2
-            ? history.push('/checkout/staff')
-            : history.push('/checkout/booking');
-        } else {
-          setError(true);
-        }
-      });
+    if (startingDate.getDate() >= new Date().getDate()) {
+      setDateError(false);
+      if (endingDate.getDate() > startingDate.getDate()) {
+        setDateError(false);
+        await store.hotelStore.bookStore
+          .bookNow(
+            store.hotelStore.bookStore.roomDetails.roomId,
+            store.userStore.userClass === 2
+              ? username
+              : store.userStore.currentUser?.id,
+            startingDate.toISOString().split('T')[0],
+            endingDate.toISOString().split('T')[0],
+            store.userStore.userClass === 2 ? false : true
+          )
+          .then((res) => {
+            if (res === 'success') {
+              store.userStore.userClass === 2
+                ? history.push('/checkout-staff')
+                : history.push('/checkout/booking');
+            } else {
+              setError(true);
+            }
+          });
+      } else {
+        setDateErrorMsg(
+          'Select a date where end date is greater than start date'
+        );
+        setDateError(true);
+      }
+    } else {
+      setDateErrorMsg('Select a future as start date');
+      setDateError(true);
+    }
   };
 
   return (
@@ -137,6 +153,9 @@ const BookNow: React.FC<BookNowProps> = () => {
       </Paper>
       {error && (
         <Alert severity="error">{store.hotelStore.bookStore.errors}</Alert>
+      )}
+      {dateError && dateErrorMsg !== '' && (
+        <Alert severity="error">{dateErrorMsg}</Alert>
       )}
     </Container>
   );

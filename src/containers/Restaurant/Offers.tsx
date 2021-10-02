@@ -15,6 +15,7 @@ import ProductionQuantityLimitsIcon from '@mui/icons-material/ProductionQuantity
 import ControlPointIcon from '@mui/icons-material/ControlPoint';
 import CheckIcon from '@mui/icons-material/Check';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import { CardActions } from '@mui/material';
 
 const Offers = () => {
   const store = useStore();
@@ -60,60 +61,68 @@ const Offers = () => {
             Offers
           </Typography>
         </Stack>
-
-        {store.restaurantStore.offerStore.offers &&
-          store.restaurantStore.offerStore.offers.map((offer: any) => (
-            <Grid item key={offer.id} xs={12} sm={6} md={4}>
-              <Card
-                elevation={5}
-                sx={{
-                  height: '100%',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  marginTop: '50px',
-                }}
-              >
-                <CardMedia
-                  component="img"
-                  image={offer.photo_main}
-                  height="200px"
-                  alt="random"
-                />
-                <CardContent sx={{ flexGrow: 1, textAlign: 'center' }}>
-                  <Typography gutterBottom variant="h5" component="h2">
-                    {offer.title}
-                  </Typography>
-                  <Divider sx={{ margin: '20px' }} />
-                  <Typography sx={{ textAlign: 'justify' }}>
-                    {offer.description}
-                  </Typography>
-                  <Chip
-                    icon={<ProductionQuantityLimitsIcon />}
-                    label={`No. of items: ${offer.number_of_items}`}
-                    variant="outlined"
-                    color="secondary"
-                    sx={{ margin: '20px 10px' }}
+        <Grid container spacing={5} sx={{ mt: 5 }}>
+          {store.restaurantStore.offerStore.offers &&
+            store.restaurantStore.offerStore.offers.map((offer: any) => (
+              <Grid item key={offer.id} xs={12} sm={6} md={4}>
+                <Card
+                  elevation={5}
+                  sx={{
+                    height: '100%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                  }}
+                >
+                  <CardMedia
+                    component="img"
+                    image={offer.photo_main}
+                    height="200px"
+                    alt="random"
                   />
-                  <Chip
-                    icon={<ControlPointIcon />}
-                    label={`Discount: ${offer.discount} %`}
-                    variant="outlined"
-                    color="secondary"
-                    sx={{ margin: '20px 10px' }}
-                  />
-                  <Chip
-                    icon={
-                      offer.availability ? <CheckIcon /> : <ErrorOutlineIcon />
-                    }
-                    label={
-                      offer.availability ? 'Available Now' : 'Not Available'
-                    }
-                    color={offer.availability ? 'primary' : 'error'}
-                  />
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
+                  <CardContent sx={{ flexGrow: 1, textAlign: 'center' }}>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      {offer.title}
+                    </Typography>
+                    <Divider sx={{ margin: '20px' }} />
+                    <Typography sx={{ textAlign: 'justify' }}>
+                      {offer.description}
+                    </Typography>
+                    <Stack>
+                      <Chip
+                        icon={<ProductionQuantityLimitsIcon />}
+                        label={`No. of items: ${offer.number_of_items}`}
+                        variant="outlined"
+                        color="secondary"
+                        sx={{ margin: '20px 10px' }}
+                      />
+                      <Chip
+                        icon={<ControlPointIcon />}
+                        label={`Discount: ${offer.discount} %`}
+                        variant="outlined"
+                        color="secondary"
+                        sx={{ margin: '20px 10px' }}
+                      />
+                    </Stack>
+                  </CardContent>
+                  <CardActions>
+                    <Chip
+                      icon={
+                        offer.availability ? (
+                          <CheckIcon />
+                        ) : (
+                          <ErrorOutlineIcon />
+                        )
+                      }
+                      label={
+                        offer.availability ? 'Available Now' : 'Not Available'
+                      }
+                      color={offer.availability ? 'primary' : 'error'}
+                    />
+                  </CardActions>
+                </Card>
+              </Grid>
+            ))}
+        </Grid>
       </Container>
     </Box>
   );

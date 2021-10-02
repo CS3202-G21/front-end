@@ -119,6 +119,7 @@ export const bookingPaymentStaff = async (
 };
 
 export const bookingPaymentCustomer = async (reservationId: any) => {
+  console.log(reservationId);
   const token = window.localStorage.getItem('jwt');
   return await fetch({
     method: 'post',

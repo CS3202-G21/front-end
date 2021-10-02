@@ -20,7 +20,6 @@ export default function FoodCard(props: any) {
           height: '100%',
           display: 'flex',
           flexDirection: 'column',
-          marginTop: '50px',
         }}
       >
         <CardMedia component="img" image={photo} height="200px" alt="random" />

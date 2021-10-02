@@ -58,7 +58,7 @@ const Register = () => {
       const response = await store.authStore.register();
       if (response === 'success') {
         reset();
-        history.push('/home');
+        history.push('/');
       } else {
         setError(store.authStore.errors);
       }

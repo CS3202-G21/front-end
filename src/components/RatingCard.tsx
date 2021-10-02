@@ -13,12 +13,18 @@ import KingBedIcon from '@mui/icons-material/KingBed';
 const RatingCard = (props: any) => {
   const store = useStore();
   const { customer, room_id, customer_review } = props;
+  const [data, setData] = React.useState<any>();
+  const [roomData, setRoomData] = React.useState<any>();
   React.useEffect(() => {
-    async function getOffers() {
+    async function getData() {
       store.hotelStore.roomStore.getRoomInfoById(room_id);
-      store.userStore.getUserById(customer);
+      store.userStore.getUserById(customer).then((res) => {
+        setData(store.userStore.userById);
+      });
+
+      setRoomData(store.hotelStore.roomStore.roomInfoById);
     }
-    getOffers();
+    getData();
   }, []);
 
   return (
@@ -27,10 +33,12 @@ const RatingCard = (props: any) => {
         <Card sx={{ display: 'flex' }} elevation={10}>
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <CardContent sx={{ flex: '1 0 auto', width: 400 }}>
-              <Typography variant="h5">
-                {store.userStore.userById.first_name}{' '}
-                {store.userStore.userById.last_name}
-              </Typography>
+              {data && (
+                <Typography variant="h5">
+                  {data.first_name} {data.last_name}
+                </Typography>
+              )}
+
               <Divider sx={{ mb: 2 }} />
               <Typography
                 variant="subtitle1"
@@ -43,13 +51,13 @@ const RatingCard = (props: any) => {
                 <Stack direction="row">
                   <Chip
                     icon={<PersonIcon />}
-                    label={store.hotelStore.roomStore.roomInfoById.title}
+                    label={roomData.title}
                     color="secondary"
                     sx={{ ml: 0, m: '10px' }}
                   />
                   <Chip
                     icon={<PersonIcon />}
-                    label={`Adults: ${store.hotelStore.roomStore.roomInfoById.number_of_adults}`}
+                    label={`Adults: ${roomData.number_of_adults}`}
                     color="primary"
                     sx={{ m: '10px' }}
                   />
@@ -57,7 +65,7 @@ const RatingCard = (props: any) => {
                 <Stack direction="row">
                   <Chip
                     icon={<KingBedIcon />}
-                    label={`Beds: ${store.hotelStore.roomStore.roomInfoById.number_of_beds}`}
+                    label={`Beds: ${roomData.number_of_beds}`}
                     color="primary"
                     sx={{ m: '10px' }}
                   />
@@ -67,8 +75,8 @@ const RatingCard = (props: any) => {
           </Box>
           <CardMedia
             component="img"
-            sx={{ height: 250 }}
-            image={store.hotelStore.roomStore.roomInfoById.photo_main}
+            sx={{ width: 400 }}
+            image={roomData.photo_main}
             alt="Live from space album cover"
           />
         </Card>

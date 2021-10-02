@@ -19,7 +19,7 @@ const Foods: React.FC<FoodsProps> = () => {
   const [restaurant, setRestaurant] = React.useState('');
 
   const typeList = [
-    { id: 'drink', title: 'Appetizer' },
+    { id: 'appetizer', title: 'Appetizer' },
     { id: 'main', title: 'Main' },
     { id: 'dessert', title: 'Dessert' },
     { id: 'drink', title: 'Drink' },
@@ -134,7 +134,7 @@ const Foods: React.FC<FoodsProps> = () => {
             </Button>
           </Grid>
         </Grid>
-        <Grid container spacing={5}>
+        <Grid container spacing={5} sx={{ mt: 5 }}>
           {store.restaurantStore.foodStore.filterFoods &&
             store.restaurantStore.foodStore.filterFoods.map((food: any) => (
               <FoodCard

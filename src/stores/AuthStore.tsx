@@ -127,6 +127,7 @@ export class AuthStore implements IAuthStore {
         console.log(response);
         this.rootStore.commonStore.setToken(response.token);
         this.rootStore.userStore.setUser(response.user);
+        this.rootStore.userStore.setUserClass(0);
         return 'success';
       })
       .catch(

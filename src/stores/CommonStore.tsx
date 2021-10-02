@@ -10,7 +10,7 @@ export class CommonStore {
   @observable token: token = window.localStorage.getItem('jwt');
   @observable isAuthenticated: boolean;
   @observable appLoaded = false;
-
+  @observable theme: any = 'light';
   @observable tags = [];
   @observable isLoadingTags = false;
 
@@ -31,6 +31,16 @@ export class CommonStore {
       window.localStorage.setItem('jwt', token!);
     } else {
       window.localStorage.removeItem('jwt');
+    }
+  }
+  @action toggleTheme() {
+    console.log(this.theme);
+    if (this.theme === 'light') {
+      console.log('dark');
+      this.theme = 'dark';
+    } else {
+      console.log('light');
+      this.theme = 'light';
     }
   }
 

@@ -5,20 +5,22 @@ import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import { useHistory } from 'react-router';
+import { useStore } from '../hooks/useStore';
 
 const cover = {
   title: 'Cloud Hotel',
   description: '#1 Hotel & Restaurant Management Application',
-  image: 'https://source.unsplash.com/MXbM1NrRqtI/1600x900',
+  image1: 'https://source.unsplash.com/MXbM1NrRqtI/1600x900',
+  image2: 'https://source.unsplash.com/szCvt1gP2d4/1600x900',
   imageText: 'main image description',
   linkText: 'Continue reading…',
 };
 
 export default function Home() {
   const history = useHistory();
+  const store = useStore();
   return (
     <React.Fragment>
       <Paper
@@ -30,17 +32,11 @@ export default function Home() {
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'center',
-          backgroundImage: `url(${cover.image})`,
+          backgroundImage: `url(${
+            store.userStore.userClass === 0 ? cover.image1 : cover.image2
+          })`,
         }}
       >
-        {/* Increase the priority of the hero background image */}
-        {
-          <img
-            style={{ display: 'none' }}
-            src={cover.image}
-            alt={cover.imageText}
-          />
-        }
         <Box
           sx={{
             position: 'absolute',

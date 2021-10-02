@@ -59,9 +59,10 @@ const Rating = () => {
         >
           {store.hotelStore.roomStore.reviews &&
             store.hotelStore.roomStore.roomInfo &&
-            store.hotelStore.roomStore.reviews.map((review: any) => (
+            store.hotelStore.roomStore.reviews.map((review: any, key: any) => (
               <Stack direction="row" justifyContent="center">
                 <RatingCard
+                  key={key}
                   customer={review.customer}
                   room_id={review.room_id}
                   customer_review={review.customer_review}

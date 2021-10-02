@@ -17,15 +17,22 @@ const HorizontalTile = (props: any) => {
   const [review, setReview] = React.useState('Good Experience');
   const [paid, setPaid] = React.useState<any>();
   const [isReviewed, setIsReviewed] = React.useState<any>();
+  const [userData, setUserData] = React.useState<any>();
 
   React.useEffect(() => {
-    setIsReviewed(data.customer_review === '' ? false : true);
-    setReview(
-      data.customer_review === '' ? 'Good Experience' : data.customer_review
-    );
-    setCheckInActive(data.checked_in);
-    setCheckOutActive(data.checked_out);
-    setPaid(data.payment_status);
+    async function getData() {
+      store.userStore.getUserById(data.customer_id).then((res) => {
+        setUserData(store.userStore.userById);
+      });
+      setIsReviewed(data.customer_review === '' ? false : true);
+      setReview(
+        data.customer_review === '' ? 'Good Experience' : data.customer_review
+      );
+      setCheckInActive(data.checked_in);
+      setCheckOutActive(data.checked_out);
+      setPaid(data.payment_status);
+    }
+    getData();
   }, []);
 
   return (
@@ -125,22 +132,24 @@ const HorizontalTile = (props: any) => {
                     Check Out
                   </Button>
                 )}
-                <Button
-                  disabled={paid}
-                  onClick={async () => {
-                    await store.hotelStore.bookStore.payBooking(
-                      data.id,
-                      store.userStore.userClass,
-                      data.id
-                    ); //change the is to username
-                    setPaid(true);
-                  }}
-                  fullWidth
-                  variant="contained"
-                  sx={{ mt: 3, mb: 2 }}
-                >
-                  {paid ? 'Paid' : 'Pay Now'}
-                </Button>
+                {userData && (
+                  <Button
+                    disabled={paid}
+                    onClick={async () => {
+                      await store.hotelStore.bookStore.payBooking(
+                        data.id,
+                        store.userStore.userClass,
+                        userData.username
+                      ); //change the is to username
+                      setPaid(true);
+                    }}
+                    fullWidth
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2 }}
+                  >
+                    {paid ? 'Paid' : 'Pay Now'}
+                  </Button>
+                )}
               </Stack>
             )}
             {store.userStore.userClass === 0 && (

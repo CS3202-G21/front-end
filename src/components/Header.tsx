@@ -23,6 +23,9 @@ import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import AccountMenu from './AccountMenu';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
+import { observer } from 'mobx-react-lite';
 
 const drawerWidth = 300;
 
@@ -55,12 +58,11 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-end',
 }));
 
-export default function Header(props: any) {
+const Header = (props: any) => {
   const theme = useTheme();
   const { open, setOpen } = props;
   const store = useStore();
   const history = useHistory();
-
   const signOutHandler = async () => {
     await store.authStore.logout();
     setOpen(false);
@@ -119,6 +121,17 @@ export default function Header(props: any) {
                   />
                 </a>
               </div>
+              <IconButton
+                sx={{ ml: 1 }}
+                onClick={() => store.commonStore.toggleTheme()}
+                color="inherit"
+              >
+                {store.commonStore.theme === 'dark' ? (
+                  <Brightness7Icon />
+                ) : (
+                  <Brightness4Icon />
+                )}
+              </IconButton>
               <AccountMenu
                 logOut={signOutHandler}
                 history={history}
@@ -184,7 +197,7 @@ export default function Header(props: any) {
       )}
     </React.Fragment>
   );
-}
+};
 
 const NestedList = (props: any) => {
   const [listOpen, setListOpen] = React.useState(false);
@@ -243,3 +256,4 @@ const UserAppBar = (props: any) => {
     </AppBar>
   );
 };
+export default observer(Header);

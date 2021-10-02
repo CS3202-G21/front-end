@@ -78,7 +78,11 @@ const App = () => {
               <PrivateRoute exact path="/rooms" component={Rooms} />
               <PrivateRoute exact path="/foods" component={Foods} />
               <PrivateRoute path="/checkout/:type" component={Checkout} />
-              <PrivateRoute path="/checkout/staff" component={StaffCheckout} />
+              <PrivateRoute
+                exact
+                path="/checkout-staff"
+                component={StaffCheckout}
+              />
               <PrivateRoute exact path="/rating" component={Rating} />
               <PrivateRoute exact path="/profile" component={Profile} />
               <Footer />

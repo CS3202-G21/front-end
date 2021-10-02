@@ -60,7 +60,7 @@ const PaymentForm = (props: any) => {
     if (type === 'booking') {
       await store.hotelStore.bookStore
         .payBooking(
-          store.hotelStore.bookStore.bookingData.reservation_id,
+          store.hotelStore.bookStore.bookingData.id,
           store.userStore.userClass,
           store.hotelStore.bookStore.bookingData.customer
         )
@@ -72,6 +72,7 @@ const PaymentForm = (props: any) => {
           }
         });
     } else {
+      handleNext();
       // code to pay table reservation
       // await store.hotelStore.bookStore
       //   .payBooking(

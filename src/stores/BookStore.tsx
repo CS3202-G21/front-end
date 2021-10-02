@@ -43,6 +43,7 @@ export class BookStore {
     console.log(room, customer, startDate, endDate, isCustomer);
     return bookNow(room, customer, startDate, endDate)
       .then((response) => {
+        console.log(response);
         isCustomer
           ? (this.bookingData = response.room_reservation)
           : (this.receptionistCheckoutData = {
@@ -129,7 +130,9 @@ export class BookStore {
       );
   }
   @action payBooking(reservationId: any, type: any, customer?: any) {
+    console.log(customer);
     if (type === 0) {
+      console.log(reservationId);
       return bookingPaymentCustomer(reservationId)
         .then((response: any) => {
           console.log(response);
@@ -143,6 +146,7 @@ export class BookStore {
         );
     }
     if (type === 2) {
+      console.log(reservationId);
       return bookingPaymentStaff(reservationId, customer)
         .then((response: any) => {
           console.log(response);

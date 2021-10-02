@@ -39,6 +39,7 @@ interface ReserveNowProps {}
 const ReserveNow: React.FC<ReserveNowProps> = () => {
   const [date, setDate] = React.useState<any>(new Date());
   const [error, setError] = React.useState(false);
+  const [dateError, setDateError] = React.useState(false);
   const store = useStore();
   const history = useHistory();
   const [restaurant, setRestaurant] = React.useState('');
@@ -65,21 +66,26 @@ const ReserveNow: React.FC<ReserveNowProps> = () => {
     setMealTime(event.target.value as string);
   };
   const reserveNowHandler = async (data: any) => {
-    await store.restaurantStore.reserveStore
-      .reserveNow(
-        restaurant,
-        mealTime,
-        date.toISOString().split('T')[0],
-        data.numberOfPeople
-      )
-      .then((res) => {
-        if (res === 'success') {
-          console.log(res);
-          history.push('/checkout/reservation');
-        } else {
-          setError(true);
-        }
-      });
+    if (date.getDate() >= new Date().getDate()) {
+      setDateError(false);
+      await store.restaurantStore.reserveStore
+        .reserveNow(
+          restaurant,
+          mealTime,
+          date.toISOString().split('T')[0],
+          data.numberOfPeople
+        )
+        .then((res) => {
+          if (res === 'success') {
+            console.log(res);
+            history.push('/checkout/reservation');
+          } else {
+            setError(true);
+          }
+        });
+    } else {
+      setDateError(true);
+    }
   };
   React.useEffect(() => {
     async function getData() {
@@ -228,6 +234,9 @@ const ReserveNow: React.FC<ReserveNowProps> = () => {
         <Alert severity="error">
           {store.restaurantStore.reserveStore.errors}
         </Alert>
+      )}
+      {dateError && (
+        <Alert severity="error">Select a future as start date</Alert>
       )}
     </Container>
   );
