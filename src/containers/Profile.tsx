@@ -124,112 +124,184 @@ const Profile = () => {
               spacing={4}
               justifyContent="center"
             >
-              <Card elevation={5}>
-                <CardMedia
-                  component="img"
-                  height="200"
-                  image="https://source.unsplash.com/rlwE8f8anOc/1600x900"
-                  alt="Restaurant"
-                />
-                <CardContent sx={{ p: '50px 20px' }}>
-                  <Typography
-                    component="h5"
-                    variant="h5"
-                    align="center"
-                    color="primary"
-                    gutterBottom
-                  >
-                    Rooms & Reservations
-                  </Typography>
-                  <Divider />
-                  <Stack direction="row">
+              {store.userStore.userClass === 3 ? (
+                <Card elevation={5}>
+                  <CardMedia
+                    component="img"
+                    height="200"
+                    image="https://source.unsplash.com/_rraO9NirHE/1600x900"
+                    alt="Restaurant"
+                  />
+                  <CardContent sx={{ p: '50px 20px' }}>
                     <Typography
-                      component="h6"
-                      variant="h6"
+                      component="h5"
+                      variant="h5"
                       align="center"
+                      color="primary"
                       gutterBottom
-                      sx={{ margin: '20px' }}
                     >
-                      Total rooms booked:
+                      Waiter
                     </Typography>
+                    <Divider sx={{ m: 4 }} />
+                    <Stack direction="row" spacing={4}>
+                      <Chip
+                        color="primary"
+                        icon={<FaceIcon />}
+                        label="Happy Staff Member"
+                      />
+                      <Chip
+                        color="primary"
+                        icon={<BedroomChildIcon />}
+                        label="Hotel Staff"
+                      />
+                    </Stack>
+                  </CardContent>
+                </Card>
+              ) : store.userStore.userClass === 0 ? (
+                <>
+                  <Card elevation={5}>
+                    <CardMedia
+                      component="img"
+                      height="200"
+                      image="https://source.unsplash.com/rlwE8f8anOc/1600x900"
+                      alt="Restaurant"
+                    />
+                    <CardContent sx={{ p: '50px 20px' }}>
+                      <Typography
+                        component="h5"
+                        variant="h5"
+                        align="center"
+                        color="primary"
+                        gutterBottom
+                      >
+                        Rooms & Reservations
+                      </Typography>
+                      <Divider />
+                      <Stack direction="row">
+                        <Typography
+                          component="h6"
+                          variant="h6"
+                          align="center"
+                          gutterBottom
+                          sx={{ margin: '20px' }}
+                        >
+                          Total rooms booked:
+                        </Typography>
+                        <Typography
+                          component="h6"
+                          variant="h6"
+                          align="center"
+                          color="secondary"
+                          gutterBottom
+                          sx={{ margin: '20px' }}
+                        >
+                          5
+                        </Typography>
+                      </Stack>
+                      <Stack direction="row" spacing={4}>
+                        <Chip
+                          color="primary"
+                          icon={<FaceIcon />}
+                          label="Happy Customer"
+                        />
+                        <Chip
+                          color="primary"
+                          icon={<BedroomChildIcon />}
+                          label="Bedrooms"
+                        />
+                      </Stack>
+                    </CardContent>
+                  </Card>
+                  <Card elevation={5}>
+                    <CardMedia
+                      component="img"
+                      height="200"
+                      image="https://source.unsplash.com/ykThMylLsbY/1600x900"
+                      alt="Meals"
+                    />
+                    <CardContent sx={{ p: '50px 20px' }}>
+                      <Typography
+                        component="h5"
+                        variant="h5"
+                        align="center"
+                        color="primary"
+                        gutterBottom
+                      >
+                        Orders
+                      </Typography>
+                      <Divider />
+                      <Stack direction="row">
+                        <Typography
+                          component="h6"
+                          variant="h6"
+                          align="center"
+                          gutterBottom
+                          sx={{ margin: '20px' }}
+                        >
+                          Total Orders Placed:
+                        </Typography>
+                        <Typography
+                          component="h6"
+                          variant="h6"
+                          align="center"
+                          color="secondary"
+                          gutterBottom
+                          sx={{ margin: '20px' }}
+                        >
+                          5
+                        </Typography>
+                      </Stack>
+                      <Stack direction="row" spacing={4}>
+                        <Chip
+                          color="primary"
+                          icon={<FaceIcon />}
+                          label="Happy Customer"
+                        />
+                        <Chip
+                          color="primary"
+                          icon={<FastfoodIcon />}
+                          label="Happy Meal"
+                        />
+                      </Stack>
+                    </CardContent>
+                  </Card>
+                </>
+              ) : store.userStore.userClass === 2 ? (
+                <Card elevation={5}>
+                  <CardMedia
+                    component="img"
+                    height="200"
+                    image="https://source.unsplash.com/dQyS2pMYtok/1600x900"
+                    alt="Restaurant"
+                  />
+                  <CardContent sx={{ p: '50px 20px' }}>
                     <Typography
-                      component="h6"
-                      variant="h6"
+                      component="h5"
+                      variant="h5"
                       align="center"
-                      color="secondary"
+                      color="primary"
                       gutterBottom
-                      sx={{ margin: '20px' }}
                     >
-                      5
+                      Receptionist
                     </Typography>
-                  </Stack>
-                  <Stack direction="row" spacing={4}>
-                    <Chip
-                      color="primary"
-                      icon={<FaceIcon />}
-                      label="Happy Customer"
-                    />
-                    <Chip
-                      color="primary"
-                      icon={<BedroomChildIcon />}
-                      label="Bedrooms"
-                    />
-                  </Stack>
-                </CardContent>
-              </Card>
-              <Card elevation={5}>
-                <CardMedia
-                  component="img"
-                  height="200"
-                  image="https://source.unsplash.com/ykThMylLsbY/1600x900"
-                  alt="Meals"
-                />
-                <CardContent sx={{ p: '50px 20px' }}>
-                  <Typography
-                    component="h5"
-                    variant="h5"
-                    align="center"
-                    color="primary"
-                    gutterBottom
-                  >
-                    Orders
-                  </Typography>
-                  <Divider />
-                  <Stack direction="row">
-                    <Typography
-                      component="h6"
-                      variant="h6"
-                      align="center"
-                      gutterBottom
-                      sx={{ margin: '20px' }}
-                    >
-                      Total Orders Placed:
-                    </Typography>
-                    <Typography
-                      component="h6"
-                      variant="h6"
-                      align="center"
-                      color="secondary"
-                      gutterBottom
-                      sx={{ margin: '20px' }}
-                    >
-                      5
-                    </Typography>
-                  </Stack>
-                  <Stack direction="row" spacing={4}>
-                    <Chip
-                      color="primary"
-                      icon={<FaceIcon />}
-                      label="Happy Customer"
-                    />
-                    <Chip
-                      color="primary"
-                      icon={<FastfoodIcon />}
-                      label="Happy Meal"
-                    />
-                  </Stack>
-                </CardContent>
-              </Card>
+                    <Divider sx={{ m: 4 }} />
+                    <Stack direction="row" spacing={4}>
+                      <Chip
+                        color="primary"
+                        icon={<FaceIcon />}
+                        label="Happy Staff Member"
+                      />
+                      <Chip
+                        color="primary"
+                        icon={<BedroomChildIcon />}
+                        label="Hotel Staff"
+                      />
+                    </Stack>
+                  </CardContent>
+                </Card>
+              ) : (
+                <div />
+              )}
             </Stack>
           </Container>
         </Box>

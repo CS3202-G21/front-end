@@ -2,6 +2,7 @@ import { observable, action, makeAutoObservable, computed } from 'mobx';
 import { HotelStoreModel } from './HotelStore';
 import { getRooms } from '../services/HotelServices';
 import { getRoomInfo } from '../services/HotelServices';
+import { getReviews } from '../services/HotelServices';
 
 export class RoomStore {
   private hotelStore: HotelStoreModel;
@@ -9,6 +10,8 @@ export class RoomStore {
   @observable roomInfo: any;
   @observable roomTypes: any = [];
   @observable filterRooms: any;
+  @observable reviews: any;
+  @observable roomInfoById: any;
 
   constructor(hotelStore: HotelStoreModel) {
     makeAutoObservable(this);
@@ -32,6 +35,18 @@ export class RoomStore {
         this.roomTypes.push({ id: room.id, type: room.title })
       );
     }
+  }
+  @computed getRoomInfoById(id: any) {
+    this.roomInfoById = this.roomInfo.filter(
+      (info: any) =>
+        info.id === this.rooms.filter((r: any) => r.id === id)[0].type
+    )[0];
+    return this.roomInfoById;
+  }
+
+  @action getReviews() {
+    getReviews().then((res) => (this.reviews = res.reviews));
+    return this.reviews;
   }
 
   @computed getFilterRooms(roomType: any, price: any) {

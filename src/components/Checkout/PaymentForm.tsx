@@ -5,6 +5,7 @@ import TextField from '@mui/material/TextField';
 import { observer } from 'mobx-react-lite';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import { useStore } from '../../hooks/useStore';
 
 import {
   useStripe,
@@ -19,9 +20,10 @@ import { Alert } from '@mui/material';
 
 const PaymentForm = (props: any) => {
   const stripeJS = useStripe();
+  const store = useStore();
   const elements = useElements();
   const [error, setError] = React.useState(false);
-  const { activeStep, handleBack, handleNext, steps } = props;
+  const { type, activeStep, handleBack, handleNext, steps } = props;
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
@@ -51,11 +53,40 @@ const PaymentForm = (props: any) => {
       })
       .then((res) => {
         if (!res.error) {
-          handleNext();
         } else {
           setError(true);
         }
       });
+    if (type === 'booking') {
+      await store.hotelStore.bookStore
+        .payBooking(
+          store.hotelStore.bookStore.bookingData.reservation_id,
+          store.userStore.userClass,
+          store.hotelStore.bookStore.bookingData.customer
+        )
+        ?.then((response) => {
+          if (response === 'success') {
+            handleNext();
+          } else {
+            setError(true);
+          }
+        });
+    } else {
+      // code to pay table reservation
+      // await store.hotelStore.bookStore
+      //   .payBooking(
+      //     store.hotelStore.bookStore.receptionistCheckoutData.reservation_id,
+      //     store.userStore.userClass,
+      //     store.hotelStore.bookStore.receptionistCheckoutData.customer
+      //   )
+      //   ?.then((response) => {
+      //     if (response === 'success') {
+      //       handleNext();
+      //     } else {
+      //       setError(true);
+      //     }
+      //   });
+    }
   };
 
   return (

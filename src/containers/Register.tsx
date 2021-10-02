@@ -80,7 +80,7 @@ const Register = () => {
         md={7}
         sx={{
           backgroundImage:
-            'url(https://source.unsplash.com/collection/4977823)',
+            'url(https://source.unsplash.com/_pPHgeHz1uk/1600x900)',
           backgroundRepeat: 'no-repeat',
           backgroundColor: (t) =>
             t.palette.mode === 'light'
@@ -225,6 +225,7 @@ const Register = () => {
             <Button
               type="submit"
               fullWidth
+              color="secondary"
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
               disabled={store.authStore.inProgress ? true : false}

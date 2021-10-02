@@ -2,7 +2,7 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute';
 import Login from './containers/Login';
-import { Rating } from './containers/Rating';
+import Rating from './containers/Rating';
 import Home from './containers/Home';
 import Header from './components/Header';
 import Register from './containers/Register';
@@ -20,6 +20,7 @@ import ReserveNow from './containers/Restaurant/ReserveNow';
 import Checkout from './components/Checkout/Checkout';
 import Profile from './containers/Profile';
 import StaffLogin from './containers/Staff/StaffLogin';
+import StaffCheckout from './components/StaffCheckout';
 
 const drawerWidth = 300;
 
@@ -77,6 +78,7 @@ const App = () => {
               <PrivateRoute exact path="/rooms" component={Rooms} />
               <PrivateRoute exact path="/foods" component={Foods} />
               <PrivateRoute path="/checkout/:type" component={Checkout} />
+              <PrivateRoute path="/checkout/staff" component={StaffCheckout} />
               <PrivateRoute exact path="/rating" component={Rating} />
               <PrivateRoute exact path="/profile" component={Profile} />
               <Footer />

@@ -8,7 +8,6 @@ import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import { useStore } from '../../hooks/useStore';
@@ -19,6 +18,7 @@ import { observer } from 'mobx-react-lite';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import FoodBankIcon from '@mui/icons-material/FoodBank';
 
 const schema = yup.object().shape({
   username: yup.string().required(),
@@ -66,7 +66,7 @@ const StaffLogin = () => {
         md={7}
         sx={{
           backgroundImage:
-            'url(https://source.unsplash.com/collection/4977823)',
+            'url(https://source.unsplash.com/e5Q5vWO55uU/1600x900)',
           backgroundRepeat: 'no-repeat',
           backgroundColor: (t) =>
             t.palette.mode === 'light'
@@ -100,10 +100,10 @@ const StaffLogin = () => {
           }}
         >
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
+            <FoodBankIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Staff Sign In
           </Typography>
           <Box
             component="form"

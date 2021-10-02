@@ -5,8 +5,12 @@ export const FOODS_URL = 'http://178.128.121.215:8000/api/menu_items';
 export const RESTAURANTS_URL = 'http://178.128.121.215:8000/api/restaurants';
 export const GET_RESERVATIONS_URL =
   'http://178.128.121.215:8000/api/table_reservations';
+export const GET_TODAY_RESERVATIONS_URL =
+  'http://178.128.121.215:8000/api/table_reservations/today_reservations';
 export const RESERVE_NOW_URL =
   'http://178.128.121.215:8000/api/table_reservations';
+export const MARK_ARRIVAL_URL =
+  'http://178.128.121.215:8000/api/table_reservations/arrival';
 
 export const getOffers = async () => {
   return await fetch({
@@ -55,5 +59,26 @@ export const getReservations = async () => {
     method: 'get',
     headers: { Authorization: token ? `Token ${token}` : '' },
     url: GET_RESERVATIONS_URL,
+  });
+};
+
+export const getTodayReservations = async () => {
+  const token = window.localStorage.getItem('jwt');
+  return await fetch({
+    method: 'get',
+    headers: { Authorization: token ? `Token ${token}` : '' },
+    url: GET_TODAY_RESERVATIONS_URL,
+  });
+};
+
+export const markArrival = async (reservationId: any) => {
+  const token = window.localStorage.getItem('jwt');
+  return await fetch({
+    method: 'post',
+    headers: { Authorization: token ? `Token ${token}` : '' },
+    url: MARK_ARRIVAL_URL,
+    body: {
+      reservation_id: reservationId,
+    },
   });
 };

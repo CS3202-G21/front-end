@@ -60,10 +60,14 @@ const Reservations = () => {
   React.useEffect(() => {
     async function getData() {
       await store.restaurantStore.getRestaurants();
-      await store.restaurantStore.reserveStore.getReservations();
+      if (store.userStore.userClass === 0) {
+        await store.restaurantStore.reserveStore.getReservations();
+      } else if (store.userStore.userClass === 3) {
+        await store.restaurantStore.reserveStore.getTodayReservations();
+      }
     }
     getData();
-  }, []);
+  }, [store.restaurantStore.reserveStore.getTodayReservationData]);
 
   return (
     <Container component="main" maxWidth="lg" sx={{ mb: 4 }}>
@@ -73,18 +77,32 @@ const Reservations = () => {
       >
         <Box sx={{ bgcolor: 'background.paper', width: '100%', m: 'auto' }}>
           <AppBar position="static">
-            <Tabs
-              value={value}
-              onChange={handleChange}
-              indicatorColor="secondary"
-              textColor="inherit"
-              variant="fullWidth"
-              aria-label="full width tabs example"
-            >
-              <Tab label="Current Reservations" {...a11yProps(0)} />
-              <Tab label="Past Reservations" {...a11yProps(1)} />
-              <Tab label="All Reservations" {...a11yProps(2)} />
-            </Tabs>
+            {store.userStore.userClass === 3 && (
+              <Tabs
+                value={value}
+                onChange={handleChange}
+                indicatorColor="secondary"
+                textColor="inherit"
+                variant="fullWidth"
+                aria-label="full width tabs example"
+              >
+                <Tab label="Today Reservations" {...a11yProps(0)} />
+              </Tabs>
+            )}
+            {store.userStore.userClass === 0 && (
+              <Tabs
+                value={value}
+                onChange={handleChange}
+                indicatorColor="secondary"
+                textColor="inherit"
+                variant="fullWidth"
+                aria-label="full width tabs example"
+              >
+                <Tab label="Current Reservations" {...a11yProps(0)} />
+                <Tab label="Past Reservations" {...a11yProps(1)} />
+                <Tab label="All Reservations" {...a11yProps(2)} />
+              </Tabs>
+            )}
           </AppBar>
           <SwipeableViews
             axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
@@ -92,15 +110,26 @@ const Reservations = () => {
             onChangeIndex={handleChangeIndex}
           >
             <TabPanel value={value} index={0} dir={theme.direction}>
-              {store.restaurantStore.reserveStore.getReservationData &&
-                store.restaurantStore.restaurants &&
-                store.restaurantStore.reserveStore.getReservationData
-                  .filter(
-                    (reservation: any) => reservation.customer_arrival !== true
+              {store.userStore.userClass === 0
+                ? store.restaurantStore.reserveStore.getReservationData &&
+                  store.restaurantStore.restaurants &&
+                  store.restaurantStore.reserveStore.getReservationData
+                    .filter(
+                      (reservation: any) =>
+                        reservation.customer_arrival !== true
+                    )
+                    .map((reservation: any) => (
+                      <HorizontalTileReservation data={reservation} />
+                    ))
+                : store.userStore.userClass === 3
+                ? store.restaurantStore.reserveStore.getTodayReservationData &&
+                  store.restaurantStore.restaurants &&
+                  store.restaurantStore.reserveStore.getTodayReservationData.map(
+                    (reservation: any) => (
+                      <HorizontalTileReservation data={reservation} />
+                    )
                   )
-                  .map((reservation: any) => (
-                    <HorizontalTileReservation data={reservation} />
-                  ))}
+                : ''}
             </TabPanel>
             <TabPanel value={value} index={1} dir={theme.direction}>
               {store.restaurantStore.reserveStore.getReservationData &&

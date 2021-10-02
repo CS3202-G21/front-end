@@ -59,8 +59,12 @@ const Booking = () => {
   };
   React.useEffect(() => {
     async function getData() {
-      await store.hotelStore.bookStore.getBookings();
       await store.hotelStore.roomStore.getRooms();
+      if (store.userStore.userClass === 0) {
+        await store.hotelStore.bookStore.getBookings();
+      } else if (store.userStore.userClass === 2) {
+        await store.hotelStore.bookStore.getTodayBookings();
+      }
     }
     getData();
   }, []);
@@ -73,31 +77,58 @@ const Booking = () => {
       >
         <Box sx={{ bgcolor: 'background.paper', width: '100%', m: 'auto' }}>
           <AppBar position="static">
-            <Tabs
-              value={value}
-              onChange={handleChange}
-              indicatorColor="secondary"
-              textColor="inherit"
-              variant="fullWidth"
-              aria-label="full width tabs example"
-            >
-              <Tab label="Current Bookings" {...a11yProps(0)} />
-              <Tab label="Past Bookings" {...a11yProps(1)} />
-              <Tab label="All Bookings" {...a11yProps(2)} />
-            </Tabs>
+            {store.userStore.userClass === 2 && (
+              <Tabs
+                value={value}
+                onChange={handleChange}
+                indicatorColor="secondary"
+                textColor="inherit"
+                variant="fullWidth"
+                aria-label="full width tabs example"
+              >
+                <Tab label="Today Bookings" {...a11yProps(0)} />
+              </Tabs>
+            )}
+            {store.userStore.userClass === 0 && (
+              <Tabs
+                value={value}
+                onChange={handleChange}
+                indicatorColor="secondary"
+                textColor="inherit"
+                variant="fullWidth"
+                aria-label="full width tabs example"
+              >
+                <Tab label="Current Bookings" {...a11yProps(0)} />
+                <Tab label="Past Bookings" {...a11yProps(1)} />
+                <Tab label="All Bookings" {...a11yProps(2)} />
+              </Tabs>
+            )}
           </AppBar>
+
           <SwipeableViews
             axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
             index={value}
             onChangeIndex={handleChangeIndex}
           >
-            <TabPanel value={value} index={0} dir={theme.direction}>
-              {store.hotelStore.bookStore.getBookingData &&
-                store.hotelStore.roomStore.rooms &&
-                store.hotelStore.bookStore.getBookingData
-                  .filter((booking: any) => booking.checked_out !== true)
-                  .map((booking: any) => <HorizontalTile data={booking} />)}
-            </TabPanel>
+            {store.userStore.userClass === 0 ? (
+              <TabPanel value={value} index={0} dir={theme.direction}>
+                {store.hotelStore.bookStore.getBookingData &&
+                  store.hotelStore.roomStore.rooms &&
+                  store.hotelStore.bookStore.getBookingData
+                    .filter((booking: any) => booking.checkIn !== true)
+                    .map((booking: any) => <HorizontalTile data={booking} />)}
+              </TabPanel>
+            ) : store.userStore.userClass === 2 ? (
+              <TabPanel value={value} index={0} dir={theme.direction}>
+                {store.hotelStore.bookStore.getTodayBookingData &&
+                  store.hotelStore.roomStore.rooms &&
+                  store.hotelStore.bookStore.getTodayBookingData.map(
+                    (reservation: any) => <HorizontalTile data={reservation} />
+                  )}
+              </TabPanel>
+            ) : (
+              <div />
+            )}
             <TabPanel value={value} index={1} dir={theme.direction}>
               {store.hotelStore.bookStore.getBookingData &&
                 store.hotelStore.roomStore.rooms &&

@@ -51,6 +51,7 @@ export default function Checkout() {
         return (
           <Elements stripe={stripePromise}>
             <PaymentForm
+              type={type}
               activeStep={step}
               handleBack={handleBack}
               handleNext={handleNext}

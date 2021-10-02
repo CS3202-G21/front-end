@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
+import { useHistory } from 'react-router';
 
 const cover = {
   title: 'Cloud Hotel',
@@ -17,6 +18,7 @@ const cover = {
 };
 
 export default function Home() {
+  const history = useHistory();
   return (
     <React.Fragment>
       <Paper
@@ -70,9 +72,9 @@ export default function Home() {
               <Typography variant="h3" color="inherit" paragraph>
                 {cover.description}
               </Typography>
-              <Link variant="subtitle1" href="/home" sx={{ color: 'white' }}>
+              {/* <Link variant="subtitle1" href="/home" sx={{ color: 'white' }}>
                 {cover.linkText}
-              </Link>
+              </Link> */}
             </Box>
           </Grid>
         </Grid>
@@ -124,8 +126,15 @@ export default function Home() {
               spacing={2}
               justifyContent="center"
             >
-              <Button variant="contained">Visit Hotel</Button>
-              <Button variant="outlined">Visit Restaurant</Button>
+              <Button
+                variant="contained"
+                onClick={() => history.push('/rooms')}
+              >
+                Visit Hotel
+              </Button>
+              <Button variant="outlined" onClick={() => history.push('/foods')}>
+                Visit Restaurant
+              </Button>
             </Stack>
           </Container>
         </Box>

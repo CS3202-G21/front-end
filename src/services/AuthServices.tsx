@@ -1,6 +1,8 @@
 import { fetch } from '../fetch';
 
 export const LOGIN_URL = 'http://178.128.121.215:8000/api/auth/customer/login';
+export const STAFF_LOGIN_URL =
+  'http://178.128.121.215:8000/api/auth/staff/login';
 export const REGISTER_URL =
   'http://178.128.121.215:8000/api/auth/customer/register';
 
@@ -8,6 +10,13 @@ export const login = async (username: string, password: string) => {
   return await fetch({
     method: 'post',
     url: LOGIN_URL,
+    body: { username: username, password: password },
+  });
+};
+export const staffLogin = async (username: string, password: string) => {
+  return await fetch({
+    method: 'post',
+    url: STAFF_LOGIN_URL,
     body: { username: username, password: password },
   });
 };

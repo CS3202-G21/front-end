@@ -66,7 +66,7 @@ const Login = () => {
         md={7}
         sx={{
           backgroundImage:
-            'url(https://source.unsplash.com/collection/4977823)',
+            'url(https://source.unsplash.com/MXbM1NrRqtI/1600x900)',
           backgroundRepeat: 'no-repeat',
           backgroundColor: (t) =>
             t.palette.mode === 'light'
@@ -99,7 +99,7 @@ const Login = () => {
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+          <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
@@ -153,8 +153,8 @@ const Login = () => {
             {error && <Alert severity="error">{error}</Alert>}
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
-                  {/* Forgot password? */}
+                <Link href="/staff" variant="body2">
+                  Staff Member?
                 </Link>
               </Grid>
               <Grid item>

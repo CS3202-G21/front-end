@@ -16,6 +16,8 @@ import { useHistory } from 'react-router-dom';
 import { reaction } from 'mobx';
 import { useStore } from '../hooks/useStore';
 import menu_config from '../config/navbar/menu.config';
+import { waiter_menu_config } from '../config/navbar/menu.config';
+import { receptionist_menu_config } from '../config/navbar/menu.config';
 import Divider from '@mui/material/Divider';
 import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
@@ -61,6 +63,7 @@ export default function Header(props: any) {
 
   const signOutHandler = async () => {
     await store.authStore.logout();
+    setOpen(false);
     setIsAuthenticated(store.commonStore.isAuthenticated);
     history.push('/login');
   };
@@ -105,14 +108,16 @@ export default function Header(props: any) {
                 <MenuIcon />
               </IconButton>
               <div style={{ flexGrow: 1 }}>
-                <img
-                  src={logo}
-                  alt="logo"
-                  style={{
-                    padding: '10px',
-                    maxWidth: '150px',
-                  }}
-                />
+                <a href="/">
+                  <img
+                    src={logo}
+                    alt="logo"
+                    style={{
+                      padding: '10px',
+                      maxWidth: '150px',
+                    }}
+                  />
+                </a>
               </div>
               <AccountMenu
                 logOut={signOutHandler}
@@ -144,7 +149,14 @@ export default function Header(props: any) {
                 )}
               </IconButton>
             </DrawerHeader>
-            {menu_config.map((listItem) =>
+            {(store.userStore.userClass === 0
+              ? menu_config
+              : store.userStore.userClass === 2
+              ? receptionist_menu_config
+              : store.userStore.userClass === 3
+              ? waiter_menu_config
+              : []
+            ).map((listItem) =>
               !listItem.sub ? (
                 <React.Fragment key={listItem.name}>
                   <Divider sx={{ margin: '10px' }} />
@@ -216,14 +228,16 @@ const UserAppBar = (props: any) => {
     >
       <Toolbar>
         <div style={{ flexGrow: 1 }}>
-          <img
-            src={logo}
-            alt="logo"
-            style={{
-              padding: '10px',
-              maxWidth: '150px',
-            }}
-          />
+          <a href="/">
+            <img
+              src={logo}
+              alt="logo"
+              style={{
+                padding: '10px',
+                maxWidth: '150px',
+              }}
+            />
+          </a>
         </div>
       </Toolbar>
     </AppBar>

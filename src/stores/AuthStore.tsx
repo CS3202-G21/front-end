@@ -2,6 +2,7 @@ import { observable, action, makeAutoObservable } from 'mobx';
 import { login } from '../services/AuthServices';
 import { register } from '../services/AuthServices';
 import { RootStoreModel } from './RootStore';
+import { staffLogin } from '../services/AuthServices';
 
 export interface IAuthStore {
   values: {
@@ -72,9 +73,9 @@ export class AuthStore implements IAuthStore {
     this.errors = undefined;
     return login(this.values.username, this.values.password)
       .then((response) => {
-        console.log(response);
         this.rootStore.commonStore.setToken(response.token);
         this.rootStore.userStore.setUser(response.user);
+        this.rootStore.userStore.setUserClass(0);
         return 'success';
       })
       .catch(
@@ -92,11 +93,11 @@ export class AuthStore implements IAuthStore {
   @action staffLogin() {
     this.inProgress = true;
     this.errors = undefined;
-    return login(this.values.username, this.values.password)
+    return staffLogin(this.values.username, this.values.password)
       .then((response) => {
-        console.log(response);
         this.rootStore.commonStore.setToken(response.token);
         this.rootStore.userStore.setUser(response.user);
+        this.rootStore.userStore.setUserClass(response.user_class);
         return 'success';
       })
       .catch(

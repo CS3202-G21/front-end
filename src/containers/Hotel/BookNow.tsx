@@ -2,13 +2,14 @@ import * as React from 'react';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import { Alert, Button, Card, Divider, Stack } from '@mui/material';
+import { Alert, Button, Card, Divider, Stack, TextField } from '@mui/material';
 import DatePicker from '../../components/DatePicker';
 import SendIcon from '@mui/icons-material/Send';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '../../hooks/useStore';
 import HorizontalCard from '../../components/HorizontalCard';
 import { useHistory } from 'react-router';
+import { Box } from '@mui/system';
 
 interface BookNowProps {}
 
@@ -16,6 +17,7 @@ const BookNow: React.FC<BookNowProps> = () => {
   const [startingDate, setStartingDate] = React.useState<any>(new Date());
   const [endingDate, setEndingDate] = React.useState<any>(new Date());
   const [error, setError] = React.useState(false);
+  const [username, setUsername] = React.useState('');
   const store = useStore();
   const history = useHistory();
 
@@ -23,13 +25,18 @@ const BookNow: React.FC<BookNowProps> = () => {
     await store.hotelStore.bookStore
       .bookNow(
         store.hotelStore.bookStore.roomDetails.roomId,
-        store.userStore.currentUser?.id,
+        store.userStore.userClass === 2
+          ? username
+          : store.userStore.currentUser?.id,
         startingDate.toISOString().split('T')[0],
-        endingDate.toISOString().split('T')[0]
+        endingDate.toISOString().split('T')[0],
+        store.userStore.userClass === 2 ? false : true
       )
       .then((res) => {
         if (res === 'success') {
-          history.push('/checkout/booking');
+          store.userStore.userClass === 2
+            ? history.push('/checkout/staff')
+            : history.push('/checkout/booking');
         } else {
           setError(true);
         }
@@ -55,6 +62,34 @@ const BookNow: React.FC<BookNowProps> = () => {
         {store.hotelStore.bookStore.roomDetails && (
           <Stack direction="row" justifyContent="center" spacing={5} m={8}>
             <HorizontalCard roomData={store.hotelStore.bookStore.roomDetails} />
+          </Stack>
+        )}{' '}
+        <Divider />
+        {store.userStore.userClass === 2 && (
+          <Stack
+            direction="column"
+            justifyContent="center"
+            spacing={5}
+            m={8}
+            sx={{ alignItems: 'center' }}
+          >
+            <Typography
+              component="h6"
+              variant="h6"
+              align="center"
+              color="secondary.main"
+            >
+              Enter Customer Username
+            </Typography>
+            <Box maxWidth="sm" sx={{ margin: 'auto' }}>
+              <TextField
+                value={username}
+                id="outlined-basic"
+                label="Username"
+                variant="outlined"
+                onChange={(event) => setUsername(event.target.value)}
+              />
+            </Box>
           </Stack>
         )}
         <Stack direction="row" justifyContent="center" spacing={4} m={3}>

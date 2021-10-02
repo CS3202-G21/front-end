@@ -1,21 +1,33 @@
 import * as React from 'react';
-import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Button, Chip, Divider, Stack, TextField } from '@mui/material';
-import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
-import PersonIcon from '@mui/icons-material/Person';
-import KingBedIcon from '@mui/icons-material/KingBed';
 import { useStore } from '../hooks/useStore';
 import { observer } from 'mobx-react-lite';
 import ReviewsIcon from '@mui/icons-material/Reviews';
+import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 
 const HorizontalTile = (props: any) => {
   const { data } = props;
   const store = useStore();
+  const [checkInActive, setCheckInActive] = React.useState<any>();
+  const [checkOutActive, setCheckOutActive] = React.useState<any>();
+  const [review, setReview] = React.useState('Good Experience');
+  const [paid, setPaid] = React.useState<any>();
+  const [isReviewed, setIsReviewed] = React.useState<any>();
+
+  React.useEffect(() => {
+    setIsReviewed(data.customer_review === '' ? false : true);
+    setReview(
+      data.customer_review === '' ? 'Good Experience' : data.customer_review
+    );
+    setCheckInActive(data.checked_in);
+    setCheckOutActive(data.checked_out);
+    setPaid(data.payment_status);
+  }, []);
+
   return (
     <Card sx={{ display: 'flex', m: 5 }} elevation={10}>
       <Box sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -50,7 +62,11 @@ const HorizontalTile = (props: any) => {
               <Divider orientation="vertical" />
             </Stack>
 
-            <Stack direction="column" width="200px">
+            <Stack
+              direction="column"
+              width="200px"
+              sx={{ alignSelf: 'center' }}
+            >
               <Typography sx={{ textAlign: 'justify' }}>
                 Start Date: {data.start_date}
               </Typography>
@@ -61,48 +77,122 @@ const HorizontalTile = (props: any) => {
             <Stack direction="column">
               <Divider orientation="vertical" />
             </Stack>
-            <Stack direction="column">
-              <Chip
-                icon={<MonetizationOnIcon />}
-                label={`Price: ${data.total_price} LKR`}
-                variant="outlined"
-                color="primary"
-                sx={{ margin: '10px' }}
-              />
-              {data.customer_review !== '' && (
-                <Chip
-                  icon={<ReviewsIcon />}
-                  label={`Reviews Added`}
-                  variant="outlined"
-                  color="primary"
-                  sx={{ margin: '10px' }}
-                />
-              )}
-            </Stack>
-            <Stack direction="column">
-              <Divider orientation="vertical" />
-            </Stack>
-            <Stack direction="column" width="200px">
-              {data.customer_review !== '' ? (
-                <>
-                  <Typography color="primary.main">
-                    {data.customer_review}
-                  </Typography>
-                </>
-              ) : (
-                <>
-                  <TextField
-                    id="outlined-multiline-static"
-                    label="Multiline"
+            {store.userStore.userClass === 2 && (
+              <Stack direction="column">
+                {checkInActive ? (
+                  <Button
+                    disabled={true}
                     fullWidth
-                    multiline
-                    rows={4}
-                    defaultValue="Good Experience"
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2 }}
+                  >
+                    Check In
+                  </Button>
+                ) : (
+                  <Button
+                    disabled={false}
+                    onClick={async () => {
+                      await store.hotelStore.bookStore.checkIn(data.id);
+                      setCheckInActive(true);
+                    }}
+                    fullWidth
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2 }}
+                  >
+                    Check In
+                  </Button>
+                )}
+                {checkOutActive ? (
+                  <Button
+                    disabled={true}
+                    fullWidth
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2 }}
+                  >
+                    Check Out
+                  </Button>
+                ) : (
+                  <Button
+                    disabled={false}
+                    onClick={async () => {
+                      await store.hotelStore.bookStore.checkOut(data.id);
+                      setCheckOutActive(true);
+                    }}
+                    fullWidth
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2 }}
+                  >
+                    Check Out
+                  </Button>
+                )}
+                <Button
+                  disabled={paid}
+                  onClick={async () => {
+                    await store.hotelStore.bookStore.payBooking(
+                      data.id,
+                      store.userStore.userClass,
+                      data.id
+                    ); //change the is to username
+                    setPaid(true);
+                  }}
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2 }}
+                >
+                  {paid ? 'Paid' : 'Pay Now'}
+                </Button>
+              </Stack>
+            )}
+            {store.userStore.userClass === 0 && (
+              <>
+                <Stack direction="column">
+                  <Chip
+                    icon={<MonetizationOnIcon />}
+                    label={`Price: ${data.total_price} LKR`}
+                    variant="outlined"
+                    color="primary"
+                    sx={{ margin: '10px' }}
                   />
-                  <Button>Add Review</Button>
-                </>
-              )}
-            </Stack>
+                  {data.customer_review !== '' && (
+                    <Chip
+                      icon={<ReviewsIcon />}
+                      label={`Reviews Added`}
+                      variant="outlined"
+                      color="primary"
+                      sx={{ margin: '10px' }}
+                    />
+                  )}
+                </Stack>
+                <Stack direction="column">
+                  <Divider orientation="vertical" />
+                </Stack>
+                <Stack direction="column" width="200px">
+                  {isReviewed ? (
+                    <Typography color="primary.main">{review}</Typography>
+                  ) : (
+                    <>
+                      <TextField
+                        id="outlined-multiline-static"
+                        label="Multiline"
+                        fullWidth
+                        multiline
+                        rows={4}
+                        value={review}
+                        onChange={(event) => setReview(event.target.value)}
+                      />
+                      <Button
+                        onClick={() => {
+                          store.hotelStore.bookStore.addReview(data.id, review);
+                          setIsReviewed(true);
+                        }}
+                      >
+                        Add Review
+                      </Button>
+                    </>
+                  )}
+                </Stack>
+              </>
+            )}
           </Stack>
         </CardContent>
       </Box>
