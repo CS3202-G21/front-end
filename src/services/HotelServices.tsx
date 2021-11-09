@@ -1,22 +1,23 @@
 import { fetch } from '../fetch';
 
-export const ROOMS_URL = 'http://178.128.121.215:8000/api/rooms';
-export const ROOM_INFO_URL = 'http://178.128.121.215:8000/api/room_types';
-export const BOOK_NOW_URL = 'http://178.128.121.215:8000/api/room_reservations';
+export const ROOMS_URL = 'https://cloud-hotel.wimukthi.live/api/rooms';
+export const ROOM_INFO_URL = 'https://cloud-hotel.wimukthi.live/api/room_types';
+export const BOOK_NOW_URL =
+  'https://cloud-hotel.wimukthi.live/api/room_reservations';
 export const GET_BOOKINGS_URL =
-  'http://178.128.121.215:8000/api/room_reservations';
+  'https://cloud-hotel.wimukthi.live/api/room_reservations';
 export const GET_REVIEWS_URL =
-  'http://178.128.121.215:8000/api/room_reservations/get_reviews';
+  'https://cloud-hotel.wimukthi.live/api/room_reservations/get_reviews';
 export const GET_TODAY_BOOKINGS_URL =
-  'http://178.128.121.215:8000/api/room_reservations/today_reservations';
+  'https://cloud-hotel.wimukthi.live/api/room_reservations/today_reservations';
 export const CHECK_IN_URL =
-  'http://178.128.121.215:8000/api/room_reservations/check_in';
+  'https://cloud-hotel.wimukthi.live/api/room_reservations/check_in';
 export const CHECK_OUT_URL =
-  'http://178.128.121.215:8000/api/room_reservations/check_out';
+  'https://cloud-hotel.wimukthi.live/api/room_reservations/check_out';
 export const ADD_REVIEW_URL =
-  'http://178.128.121.215:8000/api/room_reservations/add_review';
+  'https://cloud-hotel.wimukthi.live/api/room_reservations/add_review';
 export const BOOKING_PAYMENT_URL =
-  'http://178.128.121.215:8000/api/room_reservations/payment_success';
+  'https://cloud-hotel.wimukthi.live/api/room_reservations/payment_success';
 
 export const getRooms = async () => {
   return await fetch({

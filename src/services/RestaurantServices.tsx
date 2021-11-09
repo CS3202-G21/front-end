@@ -1,16 +1,18 @@
 import { fetch } from '../fetch';
 
-export const OFFERS_URL = 'http://178.128.121.215:8000/api/special_offers';
-export const FOODS_URL = 'http://178.128.121.215:8000/api/menu_items';
-export const RESTAURANTS_URL = 'http://178.128.121.215:8000/api/restaurants';
+export const OFFERS_URL =
+  'https://cloud-hotel.wimukthi.live/api/special_offers';
+export const FOODS_URL = 'https://cloud-hotel.wimukthi.live/api/menu_items';
+export const RESTAURANTS_URL =
+  'https://cloud-hotel.wimukthi.live/api/restaurants';
 export const GET_RESERVATIONS_URL =
-  'http://178.128.121.215:8000/api/table_reservations';
+  'https://cloud-hotel.wimukthi.live/api/table_reservations';
 export const GET_TODAY_RESERVATIONS_URL =
-  'http://178.128.121.215:8000/api/table_reservations/today_reservations';
+  'https://cloud-hotel.wimukthi.live/api/table_reservations/today_reservations';
 export const RESERVE_NOW_URL =
-  'http://178.128.121.215:8000/api/table_reservations';
+  'https://cloud-hotel.wimukthi.live/api/table_reservations';
 export const MARK_ARRIVAL_URL =
-  'http://178.128.121.215:8000/api/table_reservations/arrival';
+  'https://cloud-hotel.wimukthi.live/api/table_reservations/arrival';
 
 export const getOffers = async () => {
   return await fetch({
