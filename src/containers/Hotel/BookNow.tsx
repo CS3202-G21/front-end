@@ -13,6 +13,8 @@ import { Box } from '@mui/system';
 
 interface BookNowProps {}
 
+//Book now page for the customer. This will be redirected to the payment gateway if succeeded
+
 const BookNow: React.FC<BookNowProps> = () => {
   const [startingDate, setStartingDate] = React.useState<any>(new Date());
   const [endingDate, setEndingDate] = React.useState<any>(new Date());
@@ -28,25 +30,27 @@ const BookNow: React.FC<BookNowProps> = () => {
       setDateError(false);
       if (endingDate.getDate() > startingDate.getDate()) {
         setDateError(false);
-        await store.hotelStore.bookStore
-          .bookNow(
-            store.hotelStore.bookStore.roomDetails.roomId,
-            store.userStore.userClass === 2
-              ? username
-              : store.userStore.currentUser?.id,
-            startingDate.toISOString().split('T')[0],
-            endingDate.toISOString().split('T')[0],
-            store.userStore.userClass === 2 ? false : true
-          )
-          .then((res) => {
-            if (res === 'success') {
+        if (store.hotelStore) {
+          await store.hotelStore.bookStore
+            .bookNow(
+              store.hotelStore.bookStore.roomDetails.roomId,
               store.userStore.userClass === 2
-                ? history.push('/checkout-staff')
-                : history.push('/checkout/booking');
-            } else {
-              setError(true);
-            }
-          });
+                ? username
+                : store.userStore.currentUser?.id,
+              startingDate.toISOString().split('T')[0],
+              endingDate.toISOString().split('T')[0],
+              store.userStore.userClass === 2 ? false : true
+            )
+            .then((res) => {
+              if (res === 'success') {
+                store.userStore.userClass === 2
+                  ? history.push('/checkout-staff')
+                  : history.push('/checkout/booking');
+              } else {
+                setError(true);
+              }
+            });
+        }
       } else {
         setDateErrorMsg(
           'Select a date where end date is greater than start date'
@@ -75,13 +79,13 @@ const BookNow: React.FC<BookNowProps> = () => {
           Book Now
         </Typography>
         <Divider />
-        {store.hotelStore.bookStore.roomDetails && (
+        {store.hotelStore && store.hotelStore.bookStore.roomDetails && (
           <Stack direction="row" justifyContent="center" spacing={5} m={8}>
             <HorizontalCard roomData={store.hotelStore.bookStore.roomDetails} />
           </Stack>
         )}{' '}
         <Divider />
-        {store.userStore.userClass === 2 && (
+        {store.userStore && store.userStore.userClass === 2 && (
           <Stack
             direction="column"
             justifyContent="center"
@@ -142,17 +146,24 @@ const BookNow: React.FC<BookNowProps> = () => {
           </Stack>
         </Stack>
         <Button
-          disabled={store.hotelStore.bookStore.inProgress ? true : false}
+          disabled={
+            store.hotelStore && store.hotelStore.bookStore.inProgress
+              ? true
+              : false
+          }
           variant="contained"
           endIcon={<SendIcon />}
           sx={{ alignItems: 'center', m: 5 }}
           onClick={bookNowHandler}
+          aria-label="gotoCheckout"
         >
           Go to Check Out
         </Button>
       </Paper>
       {error && (
-        <Alert severity="error">{store.hotelStore.bookStore.errors}</Alert>
+        <Alert severity="error">
+          {store.hotelStore && store.hotelStore.bookStore.errors}
+        </Alert>
       )}
       {dateError && dateErrorMsg !== '' && (
         <Alert severity="error">{dateErrorMsg}</Alert>

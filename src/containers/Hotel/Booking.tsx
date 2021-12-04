@@ -18,6 +18,8 @@ interface TabPanelProps {
   value: number;
 }
 
+//Tab view for current booking, all bookings and past bookings
+
 const TabPanel = (props: TabPanelProps) => {
   const { children, value, index, ...other } = props;
 
@@ -38,12 +40,16 @@ const TabPanel = (props: TabPanelProps) => {
   );
 };
 
+//props for the tabs
+
 function a11yProps(index: number) {
   return {
     id: `full-width-tab-${index}`,
     'aria-controls': `full-width-tabpanel-${index}`,
   };
 }
+
+//Bookings page for the customer
 
 const Booking = () => {
   const theme = useTheme();

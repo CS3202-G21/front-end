@@ -18,6 +18,8 @@ import {
 import StripeInput from './StripeInput';
 import { Alert } from '@mui/material';
 
+// Payment form from stripe
+
 const PaymentForm = (props: any) => {
   const stripeJS = useStripe();
   const store = useStore();

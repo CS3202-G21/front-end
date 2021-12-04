@@ -10,6 +10,8 @@ import { useStore } from '../../hooks/useStore';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 
+// schema for the basic information form of payment gateway
+
 const schema = yup.object().shape({
   firstName: yup.string().required(),
   lastName: yup.string().required(),

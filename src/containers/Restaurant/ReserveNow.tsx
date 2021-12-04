@@ -36,6 +36,9 @@ const schema = yup.object().shape({
 
 interface ReserveNowProps {}
 
+// Reserve now page for the customer & staff member through user type.
+// This will be redirected to the payment gateway if succeeded
+
 const ReserveNow: React.FC<ReserveNowProps> = () => {
   const [date, setDate] = React.useState<any>(new Date());
   const [error, setError] = React.useState(false);
@@ -68,28 +71,32 @@ const ReserveNow: React.FC<ReserveNowProps> = () => {
   const reserveNowHandler = async (data: any) => {
     if (date.getDate() >= new Date().getDate()) {
       setDateError(false);
-      await store.restaurantStore.reserveStore
-        .reserveNow(
-          restaurant,
-          mealTime,
-          date.toISOString().split('T')[0],
-          data.numberOfPeople
-        )
-        .then((res) => {
-          if (res === 'success') {
-            console.log(res);
-            history.push('/checkout/reservation');
-          } else {
-            setError(true);
-          }
-        });
+      if (store.restaurantStore) {
+        await store.restaurantStore.reserveStore
+          .reserveNow(
+            restaurant,
+            mealTime,
+            date.toISOString().split('T')[0],
+            data.numberOfPeople
+          )
+          .then((res) => {
+            if (res === 'success') {
+              console.log(res);
+              history.push('/checkout/reservation');
+            } else {
+              setError(true);
+            }
+          });
+      }
     } else {
       setDateError(true);
     }
   };
   React.useEffect(() => {
     async function getData() {
-      await store.restaurantStore.getRestaurants();
+      if (store.restaurantStore) {
+        await store.restaurantStore.getRestaurants();
+      }
     }
     getData();
   }, []);
@@ -137,7 +144,8 @@ const ReserveNow: React.FC<ReserveNowProps> = () => {
                   label="Restaurant"
                   onChange={restaurantHandleChange}
                 >
-                  {store.restaurantStore.restaurants &&
+                  {store.restaurantStore &&
+                    store.restaurantStore.restaurants &&
                     store.restaurantStore.restaurants.map(
                       (restaurant: any, key: number) => (
                         <MenuItem key={key} value={restaurant.id}>
@@ -221,10 +229,15 @@ const ReserveNow: React.FC<ReserveNowProps> = () => {
           </Stack>
           <Button
             type="submit"
-            disabled={store.hotelStore.bookStore.inProgress ? true : false}
+            disabled={
+              store.hotelStore && store.hotelStore.bookStore.inProgress
+                ? true
+                : false
+            }
             variant="contained"
             endIcon={<SendIcon />}
             sx={{ alignItems: 'center', m: 5 }}
+            aria-label="gotoCheckout"
           >
             Go to Check Out
           </Button>
@@ -232,7 +245,7 @@ const ReserveNow: React.FC<ReserveNowProps> = () => {
       </Paper>
       {error && (
         <Alert severity="error">
-          {store.restaurantStore.reserveStore.errors}
+          {store.restaurantStore && store.restaurantStore.reserveStore.errors}
         </Alert>
       )}
       {dateError && (

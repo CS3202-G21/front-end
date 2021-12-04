@@ -7,6 +7,8 @@ import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import RatingCard from '../components/RatingCard';
 
+//Ratings and review Page for the customer
+
 const Rating = () => {
   const store = useStore();
   React.useEffect(() => {
@@ -51,6 +53,9 @@ const Rating = () => {
             & Ratings
           </Typography>
         </Stack>
+
+        {/* Data will be map to Rating cards , Most recent ones will be shown below*/}
+
         <Stack
           direction="column"
           spacing={4}

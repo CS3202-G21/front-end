@@ -17,6 +17,8 @@ import CheckIcon from '@mui/icons-material/Check';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { CardActions } from '@mui/material';
 
+//Offers page for the customer & staff
+
 const Offers = () => {
   const store = useStore();
   React.useEffect(() => {

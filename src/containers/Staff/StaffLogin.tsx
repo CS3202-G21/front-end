@@ -25,6 +25,8 @@ const schema = yup.object().shape({
   password: yup.string().min(6).max(32).required(),
 });
 
+//Login Page for the staff members
+
 const StaffLogin = () => {
   const store = useStore();
   const history = useHistory();
@@ -142,7 +144,13 @@ const StaffLogin = () => {
               label="Remember me"
             />
             <Button
-              disabled={store.authStore.inProgress ? true : false}
+              disabled={
+                store.authStore
+                  ? store.authStore.inProgress
+                    ? true
+                    : false
+                  : false
+              }
               type="submit"
               fullWidth
               variant="contained"

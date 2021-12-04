@@ -15,11 +15,18 @@ import { Button } from '@mui/material';
 import { useHistory } from 'react-router';
 import { useParams } from 'react-router';
 
+// integration of stripe API
+
 const stripePromise = loadStripe(
   'pk_test_51HGUvrDOqWcprKpuPB7mjHMXK9ecsAjBIIXmRzZG6fVsT2OmRbGNAOkMRTjCSGv3xzruZHrNukXsi1Ie5e8FS7HU00PYo5KVVr'
 );
 
+// added a stepper for the payment gateway
+
 const steps = ['Basic Information', 'Review your order', 'Payment details'];
+
+//Checkout page for the users
+// renders According to the user type
 
 export default function Checkout() {
   const [activeStep, setActiveStep] = React.useState(0);

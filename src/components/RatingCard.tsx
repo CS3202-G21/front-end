@@ -29,58 +29,61 @@ const RatingCard = (props: any) => {
 
   return (
     <React.Fragment>
-      {store.hotelStore.roomStore.roomInfoById && store.userStore.userById && (
-        <Card sx={{ display: 'flex' }} elevation={10}>
-          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-            <CardContent sx={{ flex: '1 0 auto', width: 400 }}>
-              {data && (
-                <Typography variant="h5">
-                  {data.first_name} {data.last_name}
-                </Typography>
-              )}
+      {store.hotelStore &&
+        store.userStore &&
+        store.hotelStore.roomStore.roomInfoById &&
+        store.userStore.userById && (
+          <Card sx={{ display: 'flex' }} elevation={10}>
+            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+              <CardContent sx={{ flex: '1 0 auto', width: 400 }}>
+                {data && (
+                  <Typography variant="h5">
+                    {data.first_name} {data.last_name}
+                  </Typography>
+                )}
 
-              <Divider sx={{ mb: 2 }} />
-              <Typography
-                variant="subtitle1"
-                color="text.primary"
-                component="div"
-              >
-                {customer_review}
-              </Typography>
-              <Stack direction="column">
-                <Stack direction="row">
-                  <Chip
-                    icon={<PersonIcon />}
-                    label={roomData.title}
-                    color="secondary"
-                    sx={{ ml: 0, m: '10px' }}
-                  />
-                  <Chip
-                    icon={<PersonIcon />}
-                    label={`Adults: ${roomData.number_of_adults}`}
-                    color="primary"
-                    sx={{ m: '10px' }}
-                  />
+                <Divider sx={{ mb: 2 }} />
+                <Typography
+                  variant="subtitle1"
+                  color="text.primary"
+                  component="div"
+                >
+                  {customer_review}
+                </Typography>
+                <Stack direction="column">
+                  <Stack direction="row">
+                    <Chip
+                      icon={<PersonIcon />}
+                      label={roomData.title}
+                      color="secondary"
+                      sx={{ ml: 0, m: '10px' }}
+                    />
+                    <Chip
+                      icon={<PersonIcon />}
+                      label={`Adults: ${roomData.number_of_adults}`}
+                      color="primary"
+                      sx={{ m: '10px' }}
+                    />
+                  </Stack>
+                  <Stack direction="row">
+                    <Chip
+                      icon={<KingBedIcon />}
+                      label={`Beds: ${roomData.number_of_beds}`}
+                      color="primary"
+                      sx={{ m: '10px' }}
+                    />
+                  </Stack>
                 </Stack>
-                <Stack direction="row">
-                  <Chip
-                    icon={<KingBedIcon />}
-                    label={`Beds: ${roomData.number_of_beds}`}
-                    color="primary"
-                    sx={{ m: '10px' }}
-                  />
-                </Stack>
-              </Stack>
-            </CardContent>
-          </Box>
-          <CardMedia
-            component="img"
-            sx={{ width: 400 }}
-            image={roomData.photo_main}
-            alt="Live from space album cover"
-          />
-        </Card>
-      )}
+              </CardContent>
+            </Box>
+            <CardMedia
+              component="img"
+              sx={{ width: 400 }}
+              image={roomData.photo_main}
+              alt="Live from space album cover"
+            />
+          </Card>
+        )}
     </React.Fragment>
   );
 };

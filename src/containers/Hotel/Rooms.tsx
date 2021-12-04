@@ -13,6 +13,8 @@ import RoomCard from '../../components/RoomCard';
 
 interface RoomsProps {}
 
+//Rooms page for the customer. Can be sorted according to the Type and price
+
 const Rooms: React.FC<RoomsProps> = () => {
   const store = useStore();
   const [priceRangeId, setPriceRangeId] = React.useState<any>('');
@@ -136,6 +138,9 @@ const Rooms: React.FC<RoomsProps> = () => {
             </Button>
           </Grid>
         </Grid>
+
+        {/* Room cards will be shown. Rooms can be selected directly through the card */}
+
         <Grid container spacing={5} sx={{ marginTop: '20px' }}>
           {store.hotelStore.roomStore.roomInfo &&
             store.hotelStore.roomStore.filterRooms &&

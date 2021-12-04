@@ -63,6 +63,7 @@
     ]
   },
   "devDependencies": {
-    "@types/react-swipeable-views": "^0.13.1"
+    "@types/react-swipeable-views": "^0.13.1",
+    "enzyme": "^3.11.0"
   }
 }

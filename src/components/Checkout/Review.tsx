@@ -7,6 +7,8 @@ import Box from '@mui/material/Box';
 import { Button } from '@mui/material';
 import { useStore } from '../../hooks/useStore';
 
+// review page of the payment gateway
+
 export default function Review(props: any) {
   const { type, activeStep, handleBack, handleNext, steps } = props;
   const store = useStore();

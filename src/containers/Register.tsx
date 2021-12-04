@@ -20,8 +20,10 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { observer } from 'mobx-react-lite';
 
+//Yup Schema for the customer register form validation
+
 const schema = yup.object().shape({
-  username: yup.string().required(),
+  username: yup.string().min(6).required(),
   firstName: yup.string().required(),
   lastName: yup.string().required(),
   email: yup.string().email().required(),
@@ -30,6 +32,8 @@ const schema = yup.object().shape({
     .string()
     .oneOf([yup.ref('password'), null], 'Passwords must match'),
 });
+
+//Register page for the customer
 
 const Register = () => {
   const store = useStore();
@@ -228,7 +232,13 @@ const Register = () => {
               color="secondary"
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
-              disabled={store.authStore.inProgress ? true : false}
+              disabled={
+                store.authStore
+                  ? store.authStore.inProgress
+                    ? true
+                    : false
+                  : false
+              }
             >
               Sign Up
             </Button>

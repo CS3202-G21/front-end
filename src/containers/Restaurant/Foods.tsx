@@ -13,6 +13,8 @@ import FoodCard from '../../components/FoodCard';
 
 interface FoodsProps {}
 
+//Foods page for the customer. Can be sorted according to the Type and Mealtime
+
 const Foods: React.FC<FoodsProps> = () => {
   const store = useStore();
   const [type, setType] = React.useState('');
@@ -134,6 +136,9 @@ const Foods: React.FC<FoodsProps> = () => {
             </Button>
           </Grid>
         </Grid>
+
+        {/* Food Cards will be mapped from data */}
+
         <Grid container spacing={5} sx={{ mt: 5 }}>
           {store.restaurantStore.foodStore.filterFoods &&
             store.restaurantStore.foodStore.filterFoods.map((food: any) => (

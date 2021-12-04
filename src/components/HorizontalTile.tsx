@@ -58,11 +58,10 @@ const HorizontalTile = (props: any) => {
                 component="h5"
                 fontWeight="800"
               >
-                {
+                {store.hotelStore &&
                   store.hotelStore.roomStore.rooms.filter(
                     (room: any) => room.id === data.room_id
-                  )[0].room_number
-                }
+                  )[0].room_number}
               </Typography>
             </Stack>
             <Stack direction="column">
@@ -84,7 +83,7 @@ const HorizontalTile = (props: any) => {
             <Stack direction="column">
               <Divider orientation="vertical" />
             </Stack>
-            {store.userStore.userClass === 2 && (
+            {store.userStore && store.userStore.userClass === 2 && (
               <Stack direction="column">
                 {checkInActive ? (
                   <Button
@@ -99,7 +98,8 @@ const HorizontalTile = (props: any) => {
                   <Button
                     disabled={false}
                     onClick={async () => {
-                      await store.hotelStore.bookStore.checkIn(data.id);
+                      store.hotelStore &&
+                        (await store.hotelStore.bookStore.checkIn(data.id));
                       setCheckInActive(true);
                     }}
                     fullWidth
@@ -122,7 +122,8 @@ const HorizontalTile = (props: any) => {
                   <Button
                     disabled={false}
                     onClick={async () => {
-                      await store.hotelStore.bookStore.checkOut(data.id);
+                      store.hotelStore &&
+                        (await store.hotelStore.bookStore.checkOut(data.id));
                       setCheckOutActive(true);
                     }}
                     fullWidth
@@ -136,11 +137,12 @@ const HorizontalTile = (props: any) => {
                   <Button
                     disabled={paid}
                     onClick={async () => {
-                      await store.hotelStore.bookStore.payBooking(
-                        data.id,
-                        store.userStore.userClass,
-                        userData.username
-                      ); //change the is to username
+                      store.hotelStore &&
+                        (await store.hotelStore.bookStore.payBooking(
+                          data.id,
+                          store.userStore.userClass,
+                          userData.username
+                        )); //change the is to username
                       setPaid(true);
                     }}
                     fullWidth
@@ -152,7 +154,7 @@ const HorizontalTile = (props: any) => {
                 )}
               </Stack>
             )}
-            {store.userStore.userClass === 0 && (
+            {store.userStore && store.userStore.userClass === 0 && (
               <>
                 <Stack direction="column">
                   <Chip

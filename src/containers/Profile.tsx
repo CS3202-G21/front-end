@@ -16,6 +16,8 @@ import FaceIcon from '@mui/icons-material/Face';
 import BedroomChildIcon from '@mui/icons-material/BedroomChild';
 import FastfoodIcon from '@mui/icons-material/Fastfood';
 
+//Profile Page for the customer
+
 const Profile = () => {
   const store = useStore();
 

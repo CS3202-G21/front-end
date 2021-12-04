@@ -3,6 +3,8 @@ import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
 import HotelIcon from '@mui/icons-material/Hotel';
 import StarIcon from '@mui/icons-material/Star';
 
+// side bar routes according to the user type
+
 export const menu_config = [
   { name: 'Home', to: '/', icon: <HomeIcon /> },
   {

@@ -19,11 +19,16 @@ import { observer } from 'mobx-react-lite';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { login } from '../services/AuthServices';
+
+//Yup Schema for the customer login form validation
 
 const schema = yup.object().shape({
   username: yup.string().required(),
-  password: yup.string().min(6).max(32).required(),
+  password: yup.string().required(),
 });
+
+//Login Page for the customer
 
 const Login = () => {
   const store = useStore();
@@ -40,9 +45,15 @@ const Login = () => {
 
   const onSubmitHandler = async (data: any) => {
     console.log(data);
-    store.authStore.setUsername(data.username);
-    store.authStore.setPassword(data.password);
-    const response = await store.authStore.login();
+    var response;
+    if (store.authStore) {
+      store.authStore.setUsername(data.username);
+      store.authStore.setPassword(data.password);
+      response = await store.authStore.login();
+    } else {
+      response = await login(data.username, data.password);
+    }
+
     if (response === 'success') {
       history.push('/');
       reset();
@@ -53,6 +64,7 @@ const Login = () => {
   return (
     <Grid
       container
+      id="main"
       component="main"
       sx={{
         height: '100vh',
@@ -142,10 +154,17 @@ const Login = () => {
               label="Remember me"
             />
             <Button
-              disabled={store.authStore.inProgress ? true : false}
+              disabled={
+                store.authStore
+                  ? store.authStore.inProgress
+                    ? true
+                    : false
+                  : false
+              }
               type="submit"
               fullWidth
               variant="contained"
+              aria-label="submit"
               sx={{ mt: 3, mb: 2 }}
             >
               Sign In

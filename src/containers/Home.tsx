@@ -18,6 +18,8 @@ const cover = {
   linkText: 'Continue reading…',
 };
 
+//Landing Page for the customer, receptionist, and waiter
+
 export default function Home() {
   const history = useHistory();
   const store = useStore();
@@ -68,9 +70,6 @@ export default function Home() {
               <Typography variant="h3" color="inherit" paragraph>
                 {cover.description}
               </Typography>
-              {/* <Link variant="subtitle1" href="/home" sx={{ color: 'white' }}>
-                {cover.linkText}
-              </Link> */}
             </Box>
           </Grid>
         </Grid>
